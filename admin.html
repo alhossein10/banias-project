@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Lattakia Development</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .admin-header {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn-secondary {
+            background: #718096;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #ebf8ff, #bee3f8);
+            color: #2b6cb0;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .content-title {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .content-body {
+            padding: 2rem;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid #3182ce;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: #3182ce;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-completed {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .status-planned {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* Alert messages */
+        .alert {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #3182ce;
+            background: #ebf8ff;
+            color: #2c5282;
+        }
+
+        .alert-success {
+            border-left-color: #38a169;
+            background: #f0fff4;
+            color: #22543d;
+        }
+
+        .alert-error {
+            border-left-color: #e53e3e;
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* Charts placeholder */
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 0.5rem;
+            }
+            
+            .nav-item {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading states */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #3182ce;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Section visibility */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    Admin Dashboard
+                </div>
+                <div class="user-info">
+                    <span>Welcome, Administrator</span>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="fas fa-external-link-alt"></i> View Public Site
+                    </a>
+                    <button class="btn btn-danger" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="container">
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('projects')">
+                                <i class="fas fa-project-diagram"></i>
+                                Projects
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('donations')">
+                                <i class="fas fa-hand-holding-usd"></i>
+                                Donations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('analytics')">
+                                <i class="fas fa-chart-line"></i>
+                                Analytics
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('settings')">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection" class="content-section active">
+                    <div class="content-header">
+                        <h1 class="content-title">Dashboard Overview</h1>
+                        <p class="content-subtitle">Monitor your community development projects and donations</p>
+                    </div>
+                    <div class="content-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                                    <div class="stat-number" id="dashTotalProjects">12</div>
+                                </div>
+                                <div class="stat-label">Total Projects</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                                    <div class="stat-number" id="dashTotalFunding">$750K</div>
+                                </div>
+                                <div class="stat-label">Total Funding</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                                    <div class="stat-number" id="dashTotalDonors">1,234</div>
+                                </div>
+                                <div class="stat-label">Total Donors</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="stat-number" id="dashMonthlyGrowth">+15%</div>
+                                </div>
+                                <div class="stat-label">Monthly Growth</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h3 style="margin-bottom: 1rem;">Funding Progress Over Time</h3>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area" style="font-size: 2rem; margin-right: 1rem;"></i>
+                                Chart visualization will be displayed here
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h3 class="table-title">Recent Activities</h3>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Activity</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentActivities">
+                                    <tr>
+                                        <td>2024-03-20</td>
+                                        <td>New donation for Community Center</td>
+                                        <td>$500</td>
+                                        <td><span class="status-badge status-completed">Completed</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-03-19</td>
+                                        <td>School Infrastructure project updated</td>
+                                        <td>-</td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div id="projectsSection" class="content-section">
+                    <div class="content-header">
+                        <h1 class="content-title">Project Management</h1>
+                        <p class="content-subtitle">Create, edit, and monitor your community projects</p>
+                    </div>
+                    <div class="content-body">
+                        <div style="margin-bottom: 2rem;">
+                            <button class="btn btn-success" onclick="showProjectModal()">
+                                <i class="fas fa-plus"></i> Add New Project
+                            </button>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h3 class="table-title">All Projects</h3>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Title</th>
+                                        <th>Status</th>
+                                        <th>Budget</th>
+                                        <th>Raised</th>
+                                        <th>Progress</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projectsTableBody">
+                                    <!-- Projects will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donations Section -->
+                <div id="donationsSection" class="content-section">
+                    <div class="content-header">
+                        <h1 class="content-title">Donation Management</h1>
+                        <p class="content-subtitle">Track and manage all donations</p>
+                    </div>
+                    <div class="content-body">
+                        <div style="margin-bottom: 2rem;">
+                            <button class="btn btn-success" onclick="showDonationModal()">
+                                <i class="fas fa-plus"></i> Add New Donation
+                            </button>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h3 class="table-title">All Donations</h3>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Donation Code</th>
+                                        <th>Project</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="donationsTableBody">
+                                    <!-- Donations will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analyticsSection" class="content-section">
+                    <div class="content-header">
+                        <h1 class="content-title">Analytics & Reports</h1>
+                        <p class="content-subtitle">Detailed insights and performance metrics</p>
+                    </div>
+                    <div class="content-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-calendar-month"></i></div>
+                                    <div class="stat-number" id="monthlyDonations">$45K</div>
+                                </div>
+                                <div class="stat-label">This Month's Donations</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                                    <div class="stat-number" id="completionRate">67%</div>
+                                </div>
+                                <div class="stat-label">Average Completion Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-trending-up"></i></div>
+                                    <div class="stat-number" id="avgDonation">$425</div>
+                                </div>
+                                <div class="stat-label">Average Donation</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                    <div class="stat-number" id="avgCompletion">8.5</div>
+                                </div>
+                                <div class="stat-label">Avg Completion Time (months)</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h3 style="margin-bottom: 1rem;">Monthly Donation Trends</h3>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 2rem; margin-right: 1rem;"></i>
+                                Interactive charts and graphs will be displayed here
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h3 style="margin-bottom: 1rem;">Project Status Distribution</h3>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-pie" style="font-size: 2rem; margin-right: 1rem;"></i>
+                                Project distribution pie chart will be displayed here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settingsSection" class="content-section">
+                    <div class="content-header">
+                        <h1 class="content-title">Settings</h1>
+                        <p class="content-subtitle">Configure system settings and preferences</p>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-group">
+                            <label class="form-label">Organization Name</label>
+                            <input type="text" class="form-input" value="Lattakia Community Development" id="orgName">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Contact Email</label>
+                            <input type="email" class="form-input" value="admin@lattakia-development.com" id="contactEmail">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Default Currency</label>
+                            <select class="form-input" id="currency">
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="SYP">SYP (LS)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-success" onclick="saveSettings()">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </div>
+
+                        <hr style="margin: 2rem 0;">
+
+                        <h3 style="margin-bottom: 1rem;">Data Management</h3>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-secondary" onclick="exportData()">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                            <button class="btn btn-success" onclick="syncData()">
+                                <i class="fas fa-sync"></i> Sync with Public Site
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="projectModalTitle">Add New Project</h3>
+            </div>
+            <div class="modal-body">
+                <form id="projectForm">
+                    <div class="form-group">
+                        <label class="form-label">Project Title *</label>
+                        <input type="text" id="projectTitle" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea id="projectDescription" class="form-input" rows="4" required></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Budget ($) *</label>
+                            <input type="number" id="projectBudget" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Current Raised ($)</label>
+                            <input type="number" id="projectRaised" class="form-input" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status *</label>
+                        <select id="projectStatus" class="form-input" required>
+                            <option value="planned">Planned</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Icon Class (Font Awesome)</label>
+                        <input type="text" id="projectIcon" class="form-input" placeholder="fas fa-building">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeProjectModal()">Cancel</button>
+                <button type="submit" form="projectForm" class="btn btn-success">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="modal" id="donationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="donationModalTitle">Add New Donation</h3>
+            </div>
+            <div class="modal-body">
+                <form id="donationForm">
+                    <div class="form-group">
+                        <label class="form-label">Donation Code *</label>
+                        <input type="text" id="donationCode" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Project *</label>
+                        <select id="donationProject" class="form-input" required>
+                            <option value="">Select Project</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Amount ($) *</label>
+                        <input type="number" id="donationAmount" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date *</label>
+                        <input type="date" id="donationDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status *</label>
+                        <select id="donationStatus" class="form-input" required>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDonationModal()">Cancel</button>
+                <button type="submit" form="donationForm" class="btn btn-success">Save Donation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let projects = [
+            {
+                id: 1,
+                title: "Community Center Renovation",
+                description: "Renovating the central community center to serve local families with improved facilities including modern meeting rooms, recreational areas, and accessibility features.",
+                budget: 50000,
+                raised: 35000,
+                status: "active",
+                image: "fas fa-building"
+            },
+            {
+                id: 2,
+                title: "School Infrastructure Improvement",
+                description: "Upgrading school facilities including classrooms, library, computer lab, and creating a safe learning environment for over 500 students.",
+                budget: 75000,
+                raised: 45000,
+                status: "active",
+                image: "fas fa-school"
+            },
+            {
+                id: 3,
+                title: "Public Park Development",
+                description: "Creating a beautiful public park with playground equipment, walking paths, and green spaces for families to enjoy recreational activities.",
+                budget: 40000,
+                raised: 40000,
+                status: "completed",
+                image: "fas fa-tree"
+            },
+            {
+                id: 4,
+                title: "Healthcare Clinic Upgrade",
+                description: "Modernizing medical equipment and facilities at the local healthcare clinic to provide better healthcare services to the community.",
+                budget: 60000,
+                raised: 15000,
+                status: "active",
+                image: "fas fa-hospital"
+            },
+            {
+                id: 5,
+                title: "Clean Water Initiative",
+                description: "Installing water purification systems and improving access to clean drinking water throughout the community.",
+                budget: 30000,
+                raised: 5000,
+                status: "active",
+                image: "fas fa-tint"
+            },
+            {
+                id: 6,
+                title: "Youth Sports Complex",
+                description: "Building a new sports complex for youth activities and community events, promoting healthy lifestyles and social interaction.",
+                budget: 80000,
+                raised: 25000,
+                status: "active",
+                image: "fas fa-futbol"
+            }
+        ];
+
+        let donations = [
+            {
+                code: "DON2024001234",
+                projectId: 1,
+                amount: 500,
+                date: "2024-03-15",
+                status: "completed"
+            },
+            {
+                code: "DON2024001235",
+                projectId: 2,
+                amount: 1000,
+                date: "2024-03-16",
+                status: "completed"
+            },
+            {
+                code: "DON2024001236",
+                projectId: 3,
+                amount: 750,
+                date: "2024-03-17",
+                status: "processing"
+            },
+            {
+                code: "DON2024001237",
+                projectId: 1,
+                amount: 2000,
+                date: "2024-03-18",
+                status: "completed"
+            },
+            {
+                code: "DON2024001238",
+                projectId: 4,
+                amount: 1500,
+                date: "2024-03-19",
+                status: "processing"
+            }
+        ];
+
+        let editingProject = null;
+        let editingDonation = null;
+
+        // Initialize the application
+        function init() {
+            loadData();
+            renderAllSections();
+            updateDashboard();
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const savedProjects = localStorage.getItem('lattakia_projects');
+            const savedDonations = localStorage.getItem('lattakia_donations');
+            
+            if (savedProjects) {
+                projects = JSON.parse(savedProjects);
+            }
+            if (savedDonations) {
+                donations = JSON.parse(savedDonations);
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('lattakia_projects', JSON.stringify(projects));
+            localStorage.setItem('lattakia_donations', JSON.stringify(donations));
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Render all sections
+        function renderAllSections() {
+            renderProjectsTable();
+            renderDonationsTable();
+            updateAnalytics();
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const totalProjects = projects.length;
+            const completedProjects = projects.filter(p => p.status === 'completed').length;
+            const totalFunding = projects.reduce((sum, p) => sum + p.raised, 0);
+            const totalDonors = donations.length * 10; // Simulated
+
+            document.getElementById('dashTotalProjects').textContent = totalProjects;
+            document.getElementById('dashTotalFunding').textContent = `${(totalFunding / 1000).toFixed(0)}K`;
+            document.getElementById('dashTotalDonors').textContent = totalDonors.toLocaleString();
+        }
+
+        // Render projects table
+        function renderProjectsTable() {
+            const tbody = document.getElementById('projectsTableBody');
+            tbody.innerHTML = '';
+
+            projects.forEach(project => {
+                const progressPercent = (project.raised / project.budget * 100).toFixed(1);
+                const row = `
+                    <tr>
+                        <td>
+                            <strong>${project.title}</strong>
+                            <br>
+                            <small style="color: #718096;">${project.description.substring(0, 60)}...</small>
+                        </td>
+                        <td><span class="status-badge status-${project.status}">${project.status.toUpperCase()}</span></td>
+                        <td>${project.budget.toLocaleString()}</td>
+                        <td>${project.raised.toLocaleString()}</td>
+                        <td>${progressPercent}%</td>
+                        <td>
+                            <button class="btn btn-small" onclick="editProject(${project.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteProject(${project.id})" style="margin-left: 0.5rem;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Render donations table
+        function renderDonationsTable() {
+            const tbody = document.getElementById('donationsTableBody');
+            tbody.innerHTML = '';
+
+            donations.forEach(donation => {
+                const project = projects.find(p => p.id === donation.projectId);
+                const row = `
+                    <tr>
+                        <td><strong>${donation.code}</strong></td>
+                        <td>${project ? project.title : 'Unknown Project'}</td>
+                        <td>${donation.amount.toLocaleString()}</td>
+                        <td>${new Date(donation.date).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></td>
+                        <td>
+                            <button class="btn btn-small" onclick="editDonation('${donation.code}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteDonation('${donation.code}')" style="margin-left: 0.5rem;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Update analytics
+        function updateAnalytics() {
+            const thisMonth = new Date().getMonth();
+            const monthlyDonations = donations
+                .filter(d => new Date(d.date).getMonth() === thisMonth)
+                .reduce((sum, d) => sum + d.amount, 0);
+            
+            const completedProjects = projects.filter(p => p.status === 'completed').length;
+            const completionRate = (completedProjects / projects.length * 100).toFixed(0);
+            
+            const avgDonation = donations.reduce((sum, d) => sum + d.amount, 0) / donations.length;
+
+            document.getElementById('monthlyDonations').textContent = `${(monthlyDonations / 1000).toFixed(0)}K`;
+            document.getElementById('completionRate').textContent = `${completionRate}%`;
+            document.getElementById('avgDonation').textContent = `${avgDonation.toFixed(0)}`;
+        }
+
+        // Project Management
+        function showProjectModal(project = null) {
+            const modal = document.getElementById('projectModal');
+            const form = document.getElementById('projectForm');
+            const title = document.getElementById('projectModalTitle');
+
+            if (project) {
+                title.textContent = 'Edit Project';
+                document.getElementById('projectTitle').value = project.title;
+                document.getElementById('projectDescription').value = project.description;
+                document.getElementById('projectBudget').value = project.budget;
+                document.getElementById('projectRaised').value = project.raised;
+                document.getElementById('projectStatus').value = project.status;
+                document.getElementById('projectIcon').value = project.image;
+                editingProject = project;
+            } else {
+                title.textContent = 'Add New Project';
+                form.reset();
+                document.getElementById('projectRaised').value = 0;
+                document.getElementById('projectIcon').value = 'fas fa-project-diagram';
+                editingProject = null;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').style.display = 'none';
+            editingProject = null;
+        }
+
+        function editProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                showProjectModal(project);
+            }
+        }
+
+        function deleteProject(projectId) {
+            if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+                projects = projects.filter(p => p.id !== projectId);
+                donations = donations.filter(d => d.projectId !== projectId);
+                saveData();
+                renderAllSections();
+                updateDashboard();
+                showAlert('Project deleted successfully!', 'success');
+            }
+        }
+
+        // Donation Management
+        function showDonationModal(donation = null) {
+            const modal = document.getElementById('donationModal');
+            const form = document.getElementById('donationForm');
+            const title = document.getElementById('donationModalTitle');
+            const projectSelect = document.getElementById('donationProject');
+
+            // Populate project dropdown
+            projectSelect.innerHTML = '<option value="">Select Project</option>';
+            projects.forEach(project => {
+                projectSelect.innerHTML += `<option value="${project.id}">${project.title}</option>`;
+            });
+
+            if (donation) {
+                title.textContent = 'Edit Donation';
+                document.getElementById('donationCode').value = donation.code;
+                document.getElementById('donationProject').value = donation.projectId;
+                document.getElementById('donationAmount').value = donation.amount;
+                document.getElementById('donationDate').value = donation.date;
+                document.getElementById('donationStatus').value = donation.status;
+                editingDonation = donation;
+            } else {
+                title.textContent = 'Add New Donation';
+                form.reset();
+                // Generate donation code
+                const today = new Date();
+                const year = today.getFullYear();
+                const nextId = Math.max(...donations.map(d => parseInt(d.code.slice(-6))), 0) + 1;
+                document.getElementById('donationCode').value = `DON${year}${nextId.toString().padStart(6, '0')}`;
+                document.getElementById('donationDate').value = today.toISOString().split('T')[0];
+                editingDonation = null;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function closeDonationModal() {
+            document.getElementById('donationModal').style.display = 'none';
+            editingDonation = null;
+        }
+
+        function editDonation(donationCode) {
+            const donation = donations.find(d => d.code === donationCode);
+            if (donation) {
+                showDonationModal(donation);
+            }
+        }
+
+        function deleteDonation(donationCode) {
+            if (confirm('Are you sure you want to delete this donation?')) {
+                const donation = donations.find(d => d.code === donationCode);
+                if (donation) {
+                    // Update project raised amount
+                    const project = projects.find(p => p.id === donation.projectId);
+                    if (project && donation.status === 'completed') {
+                        project.raised -= donation.amount;
+                    }
+                }
+                
+                donations = donations.filter(d => d.code !== donationCode);
+                saveData();
+                renderAllSections();
+                updateDashboard();
+                showAlert('Donation deleted successfully!', 'success');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                title: document.getElementById('projectTitle').value,
+                description: document.getElementById('projectDescription').value,
+                budget: parseInt(document.getElementById('projectBudget').value),
+                raised: parseInt(document.getElementById('projectRaised').value) || 0,
+                status: document.getElementById('projectStatus').value,
+                image: document.getElementById('projectIcon').value || 'fas fa-project-diagram'
+            };
+
+            if (editingProject) {
+                // Update existing project
+                const index = projects.findIndex(p => p.id === editingProject.id);
+                projects[index] = { ...projects[index], ...formData };
+                showAlert('Project updated successfully!', 'success');
+            } else {
+                // Add new project
+                const newProject = {
+                    id: Math.max(...projects.map(p => p.id), 0) + 1,
+                    ...formData
+                };
+                projects.push(newProject);
+                showAlert('Project created successfully!', 'success');
+            }
+
+            saveData();
+            renderAllSections();
+            updateDashboard();
+            closeProjectModal();
+        });
+
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                code: document.getElementById('donationCode').value,
+                projectId: parseInt(document.getElementById('donationProject').value),
+                amount: parseInt(document.getElementById('donationAmount').value),
+                date: document.getElementById('donationDate').value,
+                status: document.getElementById('donationStatus').value
+            };
+
+            if (editingDonation) {
+                // Update existing donation
+                const index = donations.findIndex(d => d.code === editingDonation.code);
+                const oldDonation = donations[index];
+                
+                // Update project raised amount
+                const project = projects.find(p => p.id === oldDonation.projectId);
+                if (project && oldDonation.status === 'completed') {
+                    project.raised -= oldDonation.amount;
+                }
+                
+                donations[index] = formData;
+                showAlert('Donation updated successfully!', 'success');
+            } else {
+                // Add new donation
+                donations.push(formData);
+                showAlert('Donation created successfully!', 'success');
+            }
+
+            // Update project raised amount if donation is completed
+            if (formData.status === 'completed') {
+                const project = projects.find(p => p.id === formData.projectId);
+                if (project) {
+                    if (editingDonation) {
+                        project.raised += formData.amount;
+                    } else {
+                        project.raised += formData.amount;
+                    }
+                }
+            }
+
+            saveData();
+            renderAllSections();
+            updateDashboard();
+            closeDonationModal();
+        });
+
+        // Settings
+        function saveSettings() {
+            const settings = {
+                orgName: document.getElementById('orgName').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                currency: document.getElementById('currency').value
+            };
+            
+            localStorage.setItem('lattakia_settings', JSON.stringify(settings));
+            showAlert('Settings saved successfully!', 'success');
+        }
+
+        function exportData() {
+            const data = {
+                projects: projects,
+                donations: donations,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lattakia-development-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showAlert('Data exported successfully!', 'success');
+        }
+
+        function syncData() {
+            saveData(); // Save to localStorage which the public site will read
+            showAlert('Data synced with public site successfully!', 'success');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real application, you would clear authentication tokens
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Utility functions
+        function showAlert(message, type = 'info') {
+            const alertClass = type === 'success' ? 'alert-success' : type === 'error' ? 'alert-error' : '';
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${alertClass}`;
+            alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i> ${message}`;
+            
+            document.body.appendChild(alertDiv);
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.style.minWidth = '300px';
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            const projectModal = document.getElementById('projectModal');
+            const donationModal = document.getElementById('donationModal');
+            
+            if (e.target === projectModal) {
+                closeProjectModal();
+            }
+            if (e.target === donationModal) {
+                closeDonationModal();
+            }
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Auto-save data every 5 minutes
+        setInterval(saveData, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
