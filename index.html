@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lattakia Community Development</title>
@@ -499,95 +500,35 @@
     </footer>
 
     <script>
-        // API base URL - Replace with your actual API endpoint when deploying
-        const API_BASE_URL = 'https://api.lattakia-development.com'; // This will be your backend API
+        // NEW configuration section - ADD THIS
+        const SUPABASE_URL = 'https://ujhqnrffbeullidlzpxz.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
 
-        // Sample data for demonstration - In production, this will come from your API
-        let projects = [
-            {
-                id: 1,
-                title: "Community Center Renovation",
-                description: "Renovating the central community center to serve local families with improved facilities including modern meeting rooms, recreational areas, and accessibility features.",
-                budget: 50000,
-                raised: 35000,
-                status: "active",
-                image: "fas fa-building"
-            },
-            {
-                id: 2,
-                title: "School Infrastructure Improvement",
-                description: "Upgrading school facilities including classrooms, library, computer lab, and creating a safe learning environment for over 500 students.",
-                budget: 75000,
-                raised: 45000,
-                status: "active",
-                image: "fas fa-school"
-            },
-            {
-                id: 3,
-                title: "Public Park Development",
-                description: "Creating a beautiful public park with playground equipment, walking paths, and green spaces for families to enjoy recreational activities.",
-                budget: 40000,
-                raised: 40000,
-                status: "completed",
-                image: "fas fa-tree"
-            },
-            {
-                id: 4,
-                title: "Healthcare Clinic Upgrade",
-                description: "Modernizing medical equipment and facilities at the local healthcare clinic to provide better healthcare services to the community.",
-                budget: 60000,
-                raised: 15000,
-                status: "active",
-                image: "fas fa-hospital"
-            },
-            {
-                id: 5,
-                title: "Clean Water Initiative",
-                description: "Installing water purification systems and improving access to clean drinking water throughout the community.",
-                budget: 30000,
-                raised: 5000,
-                status: "active",
-                image: "fas fa-tint"
-            },
-            {
-                id: 6,
-                title: "Youth Sports Complex",
-                description: "Building a new sports complex for youth activities and community events, promoting healthy lifestyles and social interaction.",
-                budget: 80000,
-                raised: 25000,
-                status: "active",
-                image: "fas fa-futbol"
-            }
-        ];
+        // Initialize connection
+        let supabase;
+        let isOnline = false;
 
-        let donations = [
-            {
-                code: "DON2024001234",
-                projectId: 1,
-                amount: 500,
-                date: "2024-03-15",
-                status: "completed"
-            },
-            {
-                code: "DON2024001235",
-                projectId: 2,
-                amount: 1000,
-                date: "2024-03-16",
-                status: "completed"
-            },
-            {
-                code: "DON2024001236",
-                projectId: 3,
-                amount: 750,
-                date: "2024-03-17",
-                status: "processing"
-            }
-        ];
+        // Data now comes from database
+        let projects = [];
+        let donations = [];
 
-        // Initialize the application
-        function init() {
-            loadData();
-        }
+        // NEW initialization function
+        async function init() {
+    try {
+        // Connect to Supabase
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Load data from database instead of localStorage
+        await loadFromDatabase();
+        isOnline = true;
+    } catch (error) {
+        // Fallback to localStorage if database fails
+        loadFromLocalStorage();
+        isOnline = false;
+    }
+    
+    renderProjects();
+}
 
         // Load data from API (or localStorage for demo)
         async function loadData() {
