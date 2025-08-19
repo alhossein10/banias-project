@@ -809,7 +809,7 @@
             const button = event.target;
 
             if (!code) {
-                resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-exclamation-triangle"></i> Invalid Input</h4><p>Please enter a donation code.</p></div>';
+                resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-exclamation-triangle"></i> إدخال غير صحيح</h4><p>.الرجاء إدحال كود التبرع</p></div>';
                 return;
             }
 
@@ -827,7 +827,7 @@
                     const project = projects.find(p => p.id === projectId);
                     resultDiv.innerHTML = `
                         <div class="alert">
-                            <h4><i class="fas fa-check-circle"></i> Donation Found!</h4>
+                            <h4><i class="fas fa-check-circle"></i> !تم العثور التبرع</h4>
                             <p><strong>Code:</strong> ${donation.code}</p>
                             <p><strong>Project:</strong> ${project ? project.title : 'Unknown Project'}</p>
                             <p><strong>Amount:</strong> ${donation.amount.toLocaleString()}</p>
@@ -837,7 +837,7 @@
                         </div>
                     `;
                 } else {
-                    resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-times-circle"></i> Not Found</h4><p>Donation code not found. Please check your code and try again.</p></div>';
+                    resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-times-circle"></i> غير موجود</h4><p>.لم يتم العثور على التبرع، الرجاء التحقق من الكود مرة أخرى</p></div>';
                 }
 
                 // Reset button
