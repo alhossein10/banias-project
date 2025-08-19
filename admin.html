@@ -244,6 +244,22 @@
             align-items: center;
         }
 
+         .table-scroll-container {
+            overflow-x: auto;
+            width: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-scroll-container table {
+            min-width: 800px; /* Ensures table doesn't collapse on small screens */
+        }
+
+        .table-scroll-container thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
         .table-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -668,42 +684,44 @@
                 </div>
 
                 <!-- Donations Section -->
-                <div id="donationsSection" class="content-section">
-                    <div class="content-header">
-                        <h1 class="content-title">Donation Management</h1>
-                        <p class="content-subtitle">Track and manage all donations</p>
-                    </div>
-                    <div class="content-body">
-                        <div style="margin-bottom: 2rem;">
-                            <button class="btn btn-success" onclick="showDonationModal()">
-                                <i class="fas fa-plus"></i> Add New Donation
-                            </button>
-                        </div>
+    <div id="donationsSection" class="content-section">
+        <div class="content-header">
+            <h1 class="content-title">Donation Management</h1>
+            <p class="content-subtitle">Track and manage all donations</p>
+        </div>
+        <div class="content-body">
+            <div style="margin-bottom: 2rem;">
+                <button class="btn btn-success" onclick="showDonationModal()">
+                    <i class="fas fa-plus"></i> Add New Donation
+                </button>
+            </div>
 
-                        <div class="table-container">
-                            <div class="table-header">
-                                <h3 class="table-title">All Donations</h3>
-                            </div>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Donation Code</th>
-                                        <th>Project</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="donationsTableBody">
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; color: #718096;">Loading donations...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3 class="table-title">All Donations</h3>
                 </div>
+                <div class="table-scroll-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Donation Code</th>
+                                <th>Project</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donationsTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #718096;">Loading donations...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
                 <!-- Analytics Section -->
                 <div id="analyticsSection" class="content-section">
