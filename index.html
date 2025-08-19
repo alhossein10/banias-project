@@ -156,7 +156,6 @@
             overflow: hidden;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
         .project-card:hover {
@@ -167,19 +166,14 @@
         .project-image {
             width: 100%;
             height: 220px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
             position: relative;
             overflow: hidden;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.05);
         }
 
         .project-image::before {
@@ -191,7 +185,6 @@
             bottom: 0;
             background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
             animation: shimmer 3s infinite;
-            z-index: 2;
         }
 
         @keyframes shimmer {
@@ -431,162 +424,6 @@
             border: 1px solid #e53e3e;
         }
 
-        /* Photo Gallery Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            overflow: auto;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 0;
-            width: 90%;
-            max-width: 1000px;
-            border-radius: 12px;
-            overflow: hidden;
-            animation: modalFadeIn 0.3s;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .modal-header {
-            padding: 1.5rem 2rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .close-modal:hover {
-            transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: 2rem;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .photo-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            color: #2d3748;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .photos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .photo-item {
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            height: 150px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .photo-item:hover {
-            transform: scale(1.03);
-        }
-
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            padding: 0.5rem;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .photo-item:hover .photo-overlay {
-            opacity: 1;
-        }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1100;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .close-lightbox {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-lightbox:hover {
-            color: #667eea;
-        }
-
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -612,10 +449,6 @@
 
             .donation-tracker {
                 padding: 2rem;
-            }
-
-            .photos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
     </style>
@@ -701,44 +534,15 @@
         </div>
     </footer>
 
-    <!-- Photo Gallery Modal -->
-    <div class="modal" id="projectGalleryModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="galleryProjectTitle">Project Title</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="photo-section">
-                    <h3 class="section-title">Before</h3>
-                    <div class="photos-grid" id="beforePhotos"></div>
-                </div>
-                <div class="photo-section">
-                    <h3 class="section-title">After</h3>
-                    <div class="photos-grid" id="afterPhotos"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img src="" alt="" id="lightboxImage">
-        </div>
-    </div>
-
     <script>
         // Configuration - REPLACE WITH YOUR SUPABASE CREDENTIALS
         const SUPABASE_URL = 'https://ujhqnrffbeullidlzpxz.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhbmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
 
         let supabase;
         let isOnline = false;
         let projects = [];
         let donations = [];
-        let projectPhotos = [];
 
         // Initialize connection and load data
         async function init() {
@@ -777,56 +581,23 @@
                     }
                 }
             }, 30000);
-
-            // Setup modal close handlers
-            setupModalHandlers();
-        }
-
-        // Setup modal event handlers
-        function setupModalHandlers() {
-            // Close project gallery modal
-            document.querySelector('.close-modal').addEventListener('click', () => {
-                document.getElementById('projectGalleryModal').style.display = 'none';
-            });
-
-            // Close lightbox
-            document.querySelector('.close-lightbox').addEventListener('click', () => {
-                document.getElementById('lightbox').style.display = 'none';
-            });
-
-            // Close modals when clicking outside
-            window.addEventListener('click', (event) => {
-                const galleryModal = document.getElementById('projectGalleryModal');
-                const lightbox = document.getElementById('lightbox');
-                
-                if (event.target === galleryModal) {
-                    galleryModal.style.display = 'none';
-                }
-                
-                if (event.target === lightbox) {
-                    lightbox.style.display = 'none';
-                }
-            });
         }
 
         // Load data from Supabase database
         async function loadFromDatabase() {
             try {
-                const [projectsResponse, donationsResponse, photosResponse] = await Promise.all([
+                const [projectsResponse, donationsResponse] = await Promise.all([
                     supabase.from('projects').select('*').order('id'),
-                    supabase.from('donations').select('*').order('date', { ascending: false }),
-                    supabase.from('project_photos').select('*')
+                    supabase.from('donations').select('*').order('date', { ascending: false })
                 ]);
 
                 if (projectsResponse.error) throw projectsResponse.error;
                 if (donationsResponse.error) throw donationsResponse.error;
-                if (photosResponse.error) throw photosResponse.error;
 
                 projects = projectsResponse.data || [];
                 donations = donationsResponse.data || [];
-                projectPhotos = photosResponse.data || [];
 
-                console.log(`Loaded ${projects.length} projects, ${donations.length} donations, and ${projectPhotos.length} photos from database`);
+                console.log(`Loaded ${projects.length} projects and ${donations.length} donations from database`);
             } catch (error) {
                 throw new Error('Failed to load data from database: ' + error.message);
             }
@@ -836,7 +607,6 @@
         function loadFallbackData() {
             const savedProjects = localStorage.getItem('lattakia_projects');
             const savedDonations = localStorage.getItem('lattakia_donations');
-            const savedPhotos = localStorage.getItem('lattakia_project_photos');
             
             projects = savedProjects ? JSON.parse(savedProjects) : [
                 {
@@ -846,7 +616,7 @@
                     budget: 50000,
                     raised: 35000,
                     status: "active",
-                    cover_photo_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    image: "fas fa-building"
                 },
                 {
                     id: 2,
@@ -855,7 +625,7 @@
                     budget: 75000,
                     raised: 45000,
                     status: "active",
-                    cover_photo_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    image: "fas fa-school"
                 }
             ];
             
@@ -866,37 +636,6 @@
                     amount: 500,
                     date: "2024-03-15",
                     status: "completed"
-                }
-            ];
-
-            projectPhotos = savedPhotos ? JSON.parse(savedPhotos) : [
-                {
-                    id: 1,
-                    project_id: 1,
-                    photo_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    photo_type: "before",
-                    is_cover: true
-                },
-                {
-                    id: 2,
-                    project_id: 1,
-                    photo_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    photo_type: "after",
-                    is_cover: false
-                },
-                {
-                    id: 3,
-                    project_id: 2,
-                    photo_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    photo_type: "before",
-                    is_cover: true
-                },
-                {
-                    id: 4,
-                    project_id: 2,
-                    photo_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    photo_type: "after",
-                    is_cover: false
                 }
             ];
         }
@@ -925,17 +664,6 @@
                         console.log('Donation change detected:', payload);
                         await loadFromDatabase();
                         updateStats();
-                    })
-                .subscribe();
-
-            // Listen for photo changes
-            supabase
-                .channel('photos-changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'project_photos' }, 
-                    async (payload) => {
-                        console.log('Photo change detected:', payload);
-                        await loadFromDatabase();
-                        renderProjects();
                     })
                 .subscribe();
         }
@@ -981,27 +709,16 @@
             projects.forEach((project, index) => {
                 const progressPercent = Math.min((project.raised / project.budget * 100), 100).toFixed(1);
                 const statusClass = `status-${project.status}`;
-                const projectPhotosList = projectPhotos.filter(photo => photo.project_id === project.id);
-                const coverPhoto = project.cover_photo_url || 
-                                  (projectPhotosList.find(photo => photo.is_cover)?.photo_url) ||
-                                  (projectPhotosList.find(photo => photo.photo_type === 'after')?.photo_url) ||
-                                  (projectPhotosList.length > 0 ? projectPhotosList[0].photo_url : null);
                 
                 setTimeout(() => {
                     const projectCard = document.createElement('div');
                     projectCard.className = 'project-card';
                     projectCard.style.opacity = '0';
                     projectCard.style.transform = 'translateY(30px)';
-                    projectCard.setAttribute('data-project-id', project.id);
                     
                     projectCard.innerHTML = `
                         <div class="project-image">
-                            ${coverPhoto ? 
-                                `<img src="${coverPhoto}" alt="${project.title}">` : 
-                                `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea, #764ba2);">
-                                    <i class="fas fa-project-diagram" style="font-size: 4rem; color: white;"></i>
-                                </div>`
-                            }
+                            <i class="${project.image || 'fas fa-project-diagram'}"></i>
                         </div>
                         <div class="project-content">
                             <h3 class="project-title">${project.title}</h3>
@@ -1021,11 +738,6 @@
                     
                     projectsGrid.appendChild(projectCard);
                     
-                    // Add click event to show photo gallery
-                    projectCard.addEventListener('click', () => {
-                        showProjectGallery(project.id);
-                    });
-                    
                     // Animate card appearance
                     setTimeout(() => {
                         projectCard.style.transition = 'all 0.6s ease';
@@ -1040,67 +752,6 @@
                     }, 100);
                 }, index * 200);
             });
-        }
-
-        // Show project gallery modal
-        function showProjectGallery(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            if (!project) return;
-            
-            const photos = projectPhotos.filter(photo => photo.project_id === projectId);
-            const beforePhotos = photos.filter(photo => photo.photo_type === 'before');
-            const afterPhotos = photos.filter(photo => photo.photo_type === 'after');
-            
-            document.getElementById('galleryProjectTitle').textContent = project.title;
-            
-            // Clear previous photos
-            document.getElementById('beforePhotos').innerHTML = '';
-            document.getElementById('afterPhotos').innerHTML = '';
-            
-            // Add before photos
-            if (beforePhotos.length > 0) {
-                beforePhotos.forEach(photo => {
-                    const photoElement = createPhotoElement(photo);
-                    document.getElementById('beforePhotos').appendChild(photoElement);
-                });
-            } else {
-                document.getElementById('beforePhotos').innerHTML = '<p>No before photos available</p>';
-            }
-            
-            // Add after photos
-            if (afterPhotos.length > 0) {
-                afterPhotos.forEach(photo => {
-                    const photoElement = createPhotoElement(photo);
-                    document.getElementById('afterPhotos').appendChild(photoElement);
-                });
-            } else {
-                document.getElementById('afterPhotos').innerHTML = '<p>No after photos available</p>';
-            }
-            
-            // Show the modal
-            document.getElementById('projectGalleryModal').style.display = 'block';
-        }
-
-        // Create photo element for gallery
-        function createPhotoElement(photo) {
-            const div = document.createElement('div');
-            div.className = 'photo-item';
-            div.innerHTML = `
-                <img src="${photo.photo_url}" alt="Project photo">
-                <div class="photo-overlay">${photo.is_cover ? 'Cover Photo' : ''}</div>
-            `;
-            
-            div.addEventListener('click', () => {
-                openLightbox(photo.photo_url);
-            });
-            
-            return div;
-        }
-
-        // Open lightbox with full-size image
-        function openLightbox(imageUrl) {
-            document.getElementById('lightboxImage').src = imageUrl;
-            document.getElementById('lightbox').style.display = 'flex';
         }
 
         // FIXED: Update statistics with correct donor count
