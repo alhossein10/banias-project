@@ -377,9 +377,10 @@
         }
 
         .modal-body {
-            padding: 1.5rem;
+            max-height: 60vh;
+             overflow-y: auto;
+              padding: 1.5rem;
         }
-
         .modal-footer {
             padding: 1.5rem;
             border-top: 1px solid #e2e8f0;
@@ -1584,7 +1585,7 @@
             const totalProjects = dataManager.projects.length;
             const completedProjects = dataManager.projects.filter(p => p.status === 'completed').length;
             const totalFunding = dataManager.projects.reduce((sum, p) => sum + p.raised, 0);
-            const totalDonors = dataManager.donations.length * 10; // Simulated
+            const totalDonors = dataManager.donations.length;
 
             document.getElementById('dashTotalProjects').textContent = totalProjects;
             document.getElementById('dashTotalFunding').textContent = `${(totalFunding / 1000).toFixed(0)}K`;

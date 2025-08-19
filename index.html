@@ -733,8 +733,8 @@
                                     <div class="progress-fill" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>$${project.raised.toLocaleString()} raised</span>
-                                    <span>$${project.budget.toLocaleString()} goal</span>
+                                    <span>${project.raised.toLocaleString()} raised</span>
+                                    <span>${project.budget.toLocaleString()} goal</span>
                                 </div>
                             </div>
                             <span class="project-status ${statusClass}">${project.status.toUpperCase()}</span>
@@ -759,17 +759,18 @@
             });
         }
 
-        // Update statistics with animated counters
+        // FIXED: Update statistics with correct donor count
         function updateStats() {
             const activeProjects = projects.filter(p => p.status === 'active').length;
             const completedProjects = projects.filter(p => p.status === 'completed').length;
             const totalFunding = projects.reduce((sum, p) => sum + p.raised, 0);
-            const totalDonors = donations.length * 8; // Estimated based on donations
+            // FIXED: Use actual donation count instead of multiplying by arbitrary number
+            const totalDonors = donations.length;
 
             // Animate number updates
             animateNumber('totalProjects', activeProjects);
             animateNumber('completedProjects', completedProjects);
-            animateValue('totalFunding', totalFunding, (val) => `$${(val / 1000).toFixed(0)}K`);
+            animateValue('totalFunding', totalFunding, (val) => `${(val / 1000).toFixed(0)}K`);
             animateNumber('totalDonors', totalDonors);
         }
 
@@ -834,7 +835,7 @@
                             <h4><i class="fas fa-check-circle"></i> Donation Found!</h4>
                             <p><strong>Code:</strong> ${donation.code}</p>
                             <p><strong>Project:</strong> ${project ? project.title : 'Unknown Project'}</p>
-                            <p><strong>Amount:</strong> $${donation.amount.toLocaleString()}</p>
+                            <p><strong>Amount:</strong> ${donation.amount.toLocaleString()}</p>
                             <p><strong>Date:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
                             <p><strong>Status:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
                             ${project ? `<p><strong>Project Progress:</strong> ${((project.raised / project.budget) * 100).toFixed(1)}% completed</p>` : ''}
