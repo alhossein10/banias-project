@@ -1008,12 +1008,12 @@
                     resultDiv.innerHTML = `
                         <div class="alert">
                             <h4><i class="fas fa-check-circle"></i> تم العثور على التبرع!</h4>
-                            <p><strong>Code:</strong> ${donation.code}</p>
-                            <p><strong>Project:</strong> ${project ? project.title : 'Unknown Project'}</p>
-                            <p><strong>Amount:</strong> ${donation.amount.toLocaleString()}</p>
-                            <p><strong>Date:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
-                            <p><strong>Status:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
-                            ${project ? `<p><strong>Project Progress:</strong> ${((project.raised / project.budget) * 100).toFixed(1)}% completed</p>` : ''}
+                            <p><strong>الكود:</strong> ${donation.code}</p>
+                            <p><strong>المشروع:</strong> ${project ? project.title : 'Unknown Project'}</p>
+                            <p><strong>مقدار التبرع:</strong> ${donation.amount.toLocaleString()}</p>
+                            <p><strong>التاريخ:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
+                            <p><strong>الحالة:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
+                            ${project ? `<p><strong>تقدم المشروع:</strong> ${((project.raised / project.budget) * 100).toFixed(1)}% completed</p>` : ''}
                         </div>
                     `;
                 } else {
