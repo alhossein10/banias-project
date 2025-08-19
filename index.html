@@ -908,8 +908,8 @@
                                     <div class="progress-fill" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>${project.raised.toLocaleString()} raised</span>
-                                    <span>${project.budget.toLocaleString()} goal</span>
+                                    <span>${project.raised.toLocaleString()} تم جمع</span>
+                                    <span>${project.budget.toLocaleString()} الهدف</span>
                                 </div>
                             </div>
                             <span class="project-status ${statusClass}">${project.status.toUpperCase()}</span>
@@ -936,8 +936,8 @@
 
         // FIXED: Update statistics with correct donor count
         function updateStats() {
-            const activeProjects = projects.filter(p => p.status === 'active').length;
-            const completedProjects = projects.filter(p => p.status === 'completed').length;
+            const activeProjects = projects.filter(p => p.status === 'حالي').length;
+            const completedProjects = projects.filter(p => p.status === 'مكتمل').length;
             const totalFunding = projects.reduce((sum, p) => sum + p.raised, 0);
             // FIXED: Use actual donation count instead of multiplying by arbitrary number
             const totalDonors = donations.length;
