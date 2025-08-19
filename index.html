@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
@@ -13,54 +13,77 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --text-color: white;
+            --card-border: rgba(255,255,255,0.2);
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             min-height: 100vh;
             line-height: 1.6;
+            color: var(--text-color);
+            text-align: right; /* RTL support */
+            direction: rtl; /* RTL support */
         }
 
         .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 1rem;
         }
 
         /* Header */
         .header {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            color: white;
             padding: 1rem 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav {
             display: flex;
-            gap: 2rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav a {
             color: white;
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 25px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(5px);
+            font-size: 0.9rem;
         }
 
         .nav a:hover, .nav a.active {
@@ -71,59 +94,60 @@
 
         /* Main Content */
         .main {
-            padding: 3rem 0;
+            padding: 2rem 0;
         }
 
         .hero {
             text-align: center;
-            color: white;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
+            padding: 1rem;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.3;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 100%;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
-            padding: 2.5rem 2rem;
-            border-radius: 20px;
+            padding: 1.5rem 1rem;
+            border-radius: 15px;
             text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
+            transition: var(--transition);
+            border: 1px solid var(--card-border);
         }
 
         .stat-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .stat-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
             opacity: 0.8;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -131,46 +155,46 @@
 
         .stat-label {
             opacity: 0.9;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         /* Projects Section */
         .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            padding: 0 1rem;
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 4rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .project-card {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: var(--transition);
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
         .project-image {
             width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 180px;
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 3rem;
             color: white;
             position: relative;
             overflow: hidden;
@@ -193,32 +217,33 @@
         }
 
         .project-content {
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .project-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #2d3748;
             margin-bottom: 1rem;
+            line-height: 1.4;
         }
 
         .project-description {
             color: #718096;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
         .project-progress {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .progress-bar {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: #e2e8f0;
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
             position: relative;
         }
@@ -250,17 +275,17 @@
         .progress-text {
             display: flex;
             justify-content: space-between;
-            margin-top: 0.75rem;
-            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
             color: #4a5568;
             font-weight: 500;
         }
 
         .project-status {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -284,32 +309,32 @@
         /* Donation Tracking */
         .donation-tracker {
             background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            margin: 3rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 2rem 0;
             backdrop-filter: blur(10px);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
             color: #2d3748;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
         }
 
         .form-input:focus {
@@ -319,25 +344,27 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: var(--primary-gradient);
             color: white;
-            padding: 1rem 2.5rem;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            min-height: 44px; /* Better touch target */
+            min-width: 44px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
         }
 
         .btn:active {
@@ -345,12 +372,13 @@
         }
 
         .alert {
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border-right: 4px solid #667eea;
             background: rgba(102, 126, 234, 0.1);
             color: #2d3748;
+            text-align: right;
         }
 
         .alert h4 {
@@ -359,7 +387,7 @@
         }
 
         .alert-error {
-            border-left-color: #e53e3e;
+            border-right-color: #e53e3e;
             background: rgba(229, 62, 62, 0.1);
             color: #742a2a;
         }
@@ -371,19 +399,18 @@
         .footer {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            color: white;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--card-border);
         }
 
         /* Loading states */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
@@ -395,21 +422,22 @@
 
         .loading-projects {
             text-align: center;
-            color: white;
-            padding: 3rem;
-            font-size: 1.2rem;
+            padding: 2rem;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
         }
 
         /* Connection Status */
         .connection-status {
             position: fixed;
             top: 10px;
-            right: 10px;
-            padding: 8px 12px;
+            left: 10px;
+            padding: 6px 10px;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 11px;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            direction: ltr;
         }
 
         .status-online {
@@ -424,31 +452,182 @@
             border: 1px solid #e53e3e;
         }
 
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
+        /* Responsive Design */
+        /* Tablets and larger phones */
+        @media (min-width: 481px) {
+            .container {
+                padding: 0 1.5rem;
             }
-
-            .nav {
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-
+            
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
+            
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
             }
+            
+            .stat-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .nav a {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+        }
 
+        /* Small tablets */
+        @media (min-width: 641px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Large tablets and small laptops */
+        @media (min-width: 821px) {
+            .container {
+                padding: 0 2rem;
+            }
+            
+            .hero {
+                margin-bottom: 4rem;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .projects-grid {
+                gap: 2rem;
+            }
+            
+            .project-card {
+                border-radius: 20px;
+            }
+            
             .donation-tracker {
-                padding: 2rem;
+                padding: 2.5rem;
+            }
+        }
+
+        /* Desktops and laptops */
+        @media (min-width: 1025px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .stat-card {
+                padding: 2.5rem 2rem;
+            }
+            
+            .stat-icon {
+                font-size: 2.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            
+            .nav {
+                gap: 1.5rem;
+            }
+            
+            .nav a {
+                padding: 0.75rem 1.5rem;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1201px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            }
+        }
+
+        /* Special adjustments for very small devices */
+        @media (max-width: 360px) {
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .nav a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.2rem 0.8rem;
+            }
+            
+            .stat-icon {
+                font-size: 1.8rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* High resolution displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .stat-card, .project-card, .donation-tracker {
+                backdrop-filter: blur(20px);
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -464,7 +643,8 @@
                 <nav class="nav">
                     <a href="#home" class="active">الصفحة الرئيسية</a>
                     <a href="#projects">المشاريع</a>
-                    <a href="#track">تتبع تبرعك</a>                </nav>
+                    <a href="#track">تتبع تبرعك</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -504,7 +684,7 @@
 
             <!-- Projects Section -->
             <section id="projects">
-                <h2 class="section-title">المشاريع  الحالية</h2>
+                <h2 class="section-title">المشاريع الحالية</h2>
                 <div class="projects-grid" id="projectsGrid">
                     <div class="loading-projects">
                         <i class="fas fa-spinner fa-spin"></i> ...يتم تحميل المشاريع
