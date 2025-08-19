@@ -989,12 +989,12 @@
             const button = event.target;
 
             if (!code) {
-                resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-exclamation-triangle"></i> إدخال غير صحيح</h4><p>.الرجاء إدحال كود التبرع</p></div>';
+                resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-exclamation-triangle"></i> إدخال غير صحيح</h4><p>الرجاء إدخال كود التبرع.</p></div>';
                 return;
             }
 
             // Show loading state
-            button.innerHTML = '<span class="loading"></span> Searching...';
+            button.innerHTML = '<span class="loading"></span> جاري البحث...';
             button.disabled = true;
 
             // Simulate API call delay
@@ -1007,7 +1007,7 @@
                     const project = projects.find(p => p.id === projectId);
                     resultDiv.innerHTML = `
                         <div class="alert">
-                            <h4><i class="fas fa-check-circle"></i> !تم العثور التبرع</h4>
+                            <h4><i class="fas fa-check-circle"></i> تم العثور على التبرع!</h4>
                             <p><strong>Code:</strong> ${donation.code}</p>
                             <p><strong>Project:</strong> ${project ? project.title : 'Unknown Project'}</p>
                             <p><strong>Amount:</strong> ${donation.amount.toLocaleString()}</p>
@@ -1021,7 +1021,7 @@
                 }
 
                 // Reset button
-                button.innerHTML = '<i class="fas fa-search"></i> Track Donation';
+                button.innerHTML = '<i class="fas fa-search"></i> تتبع التبرع';
                 button.disabled = false;
             }, 1500);
         }
