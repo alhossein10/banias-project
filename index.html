@@ -14,7 +14,7 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #001e1c; /* Changed from gradient to solid color */
             --card-bg: rgba(255, 255, 255, 0.15);
             --text-color: white;
             --card-border: rgba(255,255,255,0.2);
@@ -25,7 +25,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-gradient);
+            background: var(--primary-color); /* Changed from gradient to solid color */
             min-height: 100vh;
             line-height: 1.6;
             color: var(--text-color);
@@ -34,10 +34,10 @@
             display: flex;
         }
 
-        /* Sidebar Styles */
+        /* Sidebar Styles - Updated to match homepage */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3); /* Changed to match homepage */
             backdrop-filter: blur(10px);
             height: 100vh;
             position: fixed;
@@ -45,7 +45,7 @@
             right: 0;
             padding: 1.5rem 1rem;
             box-shadow: var(--shadow);
-            border-left: 1px solid var(--card-border);
+            border-left: 1px solid var(--card-border); /* Added to match homepage */
             overflow-y: auto;
             z-index: 1000;
             transition: var(--transition);
@@ -56,17 +56,27 @@
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .logo i {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border: 2px solid var(--card-border);
         }
 
         .logo h1 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0;
         }
 
         .nav-menu {
@@ -815,15 +825,13 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="logo">
-            <i class="fas fa-city"></i>
-            <h1>بانياس أحلى</h1>
+            <img src="images/logo.png" alt="إدارة شؤون بانياس">
+            <h1>إدارة شؤون بانياس</h1>
         </div>
 
         <ul class="nav-menu">
             <li><a href="homepage.html"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
             <li><a href="#" class="active"><i class="fas fa-project-diagram"></i> المشاريع والتبرعات</a></li>
-            <li><a href="#"><i class="fas fa-info-circle"></i> عن البلدية</a></li>
-            <li><a href="#"><i class="fas fa-concierge-bell"></i> الخدمات الإلكترونية</a></li>
             <li><a href="#"><i class="fas fa-phone"></i> اتصل بنا</a></li>
         </ul>
     </aside>
