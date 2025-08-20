@@ -13,7 +13,7 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #001e1c;
             --card-bg: rgba(255, 255, 255, 0.15);
             --text-color: white;
             --card-border: rgba(255,255,255,0.2);
@@ -25,7 +25,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-gradient);
+            background: var(--primary-color);
             min-height: 100vh;
             line-height: 1.6;
             color: var(--text-color);
@@ -37,7 +37,7 @@
         /* Sidebar Styles */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             height: 100vh;
             position: fixed;
@@ -111,7 +111,7 @@
 
         /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             box-shadow: var(--shadow);
@@ -133,7 +133,7 @@
 
         /* Hero Section */
         .hero {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 3rem 2rem;
@@ -208,7 +208,7 @@
 
         /* About Section */
         .about {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2.5rem;
@@ -232,7 +232,7 @@
 
         /* Contact Section */
         .contact {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2.5rem;
@@ -286,7 +286,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--card-border);
             border-radius: 5px;
             width: 40px;
@@ -298,7 +298,17 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Responsive Design */
+        /* Responsive Design Improvements */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-right: 250px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .sidebar {
                 transform: translateX(100%);
@@ -311,10 +321,22 @@
             
             .main-content {
                 margin-right: 0;
+                padding: 1.5rem;
             }
             
             .menu-toggle {
                 display: flex;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .services {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
         }
 
@@ -323,16 +345,29 @@
                 padding: 1rem;
             }
             
+            .hero {
+                padding: 2rem 1.5rem;
+            }
+            
             .hero h1 {
                 font-size: 2rem;
             }
             
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .services {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .service-card {
+                padding: 1.5rem;
+            }
+            
+            .about, .contact {
+                padding: 1.5rem;
             }
             
             .contact-info {
@@ -342,21 +377,71 @@
 
         @media (max-width: 480px) {
             .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
+                padding: 1rem;
             }
             
             .hero {
-                padding: 2rem 1rem;
+                padding: 1.5rem 1rem;
             }
             
             .hero h1 {
                 font-size: 1.8rem;
             }
             
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .service-card {
+                padding: 1.2rem;
+            }
+            
+            .service-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
             .about, .contact {
-                padding: 1.5rem;
+                padding: 1.2rem;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+                padding: 1.2rem;
+            }
+            
+            .contact-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+            
+            .menu-toggle {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 0.8rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .service-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .about h2, .contact h2 {
+                font-size: 1.5rem;
             }
         }
 
