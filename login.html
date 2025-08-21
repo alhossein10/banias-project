@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -166,13 +167,12 @@
                     throw new Error('Invalid username or password');
                 }
                 
-                // In a real application, you should use proper password hashing like bcrypt
-                // This is a simplified example - NEVER store plain text passwords in production
-                if (data.password_hash === password) { // This should be compared with a hashed password
+                // Compare the provided password with the stored password_hash
+                if (data.password_hash === password) {
                     // Update last login time
                     await supabase
                         .from('admin_users')
-                        .update({ last_login: new Date() })
+                        .update({ last_login: new Date().toISOString() })
                         .eq('id', data.id);
                     
                     // Store authentication status
