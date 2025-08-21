@@ -1796,7 +1796,7 @@
                 amount: parseInt(document.getElementById('donationAmount').value),
                 date: document.getElementById('donationDate').value,
                 status: document.getElementById('donationStatus').value,
-                name: document.getElementById('donorName').value
+                name: document.getElementById('donorName').value || null
             };
 
             try {
