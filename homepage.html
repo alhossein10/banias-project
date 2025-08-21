@@ -11,11 +11,10 @@
             padding: 0;
             box-sizing: border-box;
         }
-        /*1f3331
-        2d4f4f*/
+
         :root {
-            --primary-bg: #152929;
-            --secondary-bg: #2d4f4f;
+            --primary-bg: #001e1c;
+            --secondary-bg: #1a3433;
             --accent-orange: #ff8c00;
             --accent-yellow: #ffa500;
             --text-primary: #ffffff;
@@ -53,7 +52,7 @@
             background: 
                 radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #2d4f4f 0%, #152929 50%, #2d4f4f 100%);
+                linear-gradient(135deg, #1a3433 0%, #001e1c 50%, #1a3433 100%);
             pointer-events: none;
             z-index: -1;
         }
@@ -61,7 +60,7 @@
         /* Sidebar Styles */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(45, 79, 79, 0.8);
+            background: rgba(26, 52, 51, 0.8);
             backdrop-filter: blur(10px);
             height: 100vh;
             position: fixed;
@@ -295,8 +294,7 @@
         }
 
         .service-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--secondary-bg);
             padding: 2.5rem;
             border-radius: var(--border-radius);
             text-align: center;
@@ -358,8 +356,7 @@
 
         /* About Section */
         .about {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--secondary-bg);
             border-radius: var(--border-radius);
             padding: 3rem 2.5rem;
             margin-bottom: 3rem;
@@ -387,8 +384,7 @@
 
         /* Contact Section */
         .contact {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--secondary-bg);
             border-radius: var(--border-radius);
             padding: 3rem 2.5rem;
             box-shadow: var(--shadow-soft);
@@ -424,7 +420,7 @@
             align-items: center;
             gap: 1.5rem;
             padding: 1.5rem;
-            background: var(--secondary-bg);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             transition: var(--transition);
             border: 1px solid transparent;
