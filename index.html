@@ -994,6 +994,7 @@
                         <div class="alert">
                             <h4><i class="fas fa-check-circle"></i> تم العثور على التبرع!</h4>
                             <p><strong>الكود:</strong> ${donation.code}</p>
+                            <p><strong>اسم المتبرع:</strong> ${donation.name}</p>
                             <p><strong>المشروع:</strong> ${project ? project.title : 'Unknown Project'}</p>
                             <p><strong>مقدار التبرع:</strong> ${donation.amount.toLocaleString()}</p>
                             <p><strong>التاريخ:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
