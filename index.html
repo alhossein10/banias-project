@@ -997,7 +997,7 @@
                             <p><strong>المشروع:</strong> ${project ? project.title : 'Unknown Project'}</p>
                             <p><strong>مقدار التبرع:</strong> ${donation.amount.toLocaleString()}</p>
                             <p><strong>التاريخ:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
-                            <p><strong>الحالة:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
+                            <p><strong>حالة التبرع:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
                             ${project ? `<p><strong>تقدم المشروع:</strong>مكتمل بنسبة ${((project.raised / project.budget) * 100).toFixed(1)}% </p>` : ''}
                         </div>
                     `;
