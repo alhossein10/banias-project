@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المشاريع والتبرعات</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,272 +15,252 @@
         }
 
         :root {
-            --primary-color: #001e1c; /* Changed from gradient to solid color */
-            --card-bg: rgba(255, 255, 255, 0.15);
-            --text-color: white;
-            --card-border: rgba(255,255,255,0.2);
-            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --primary-bg: #001e1c;
+            --secondary-bg: #1a3433;
+            --accent-orange: #ff8c00;
+            --accent-yellow: #ffa500;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --border-radius: 16px;
             --transition: all 0.3s ease;
-            --sidebar-width: 280px;
+            --orange-gradient: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+            --card-bg: rgba(38, 63, 61, 0.7);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-color); /* Changed from gradient to solid color */
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-bg);
             min-height: 100vh;
             line-height: 1.6;
-            color: var(--text-color);
+            color: var(--text-primary);
             text-align: right;
             direction: rtl;
-            display: flex;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Sidebar Styles - Updated to match homepage */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: rgba(0, 0, 0, 0.3); /* Changed to match homepage */
-            backdrop-filter: blur(10px);
-            height: 100vh;
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #1a3433 0%, #001e1c 50%, #1a3433 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header - Updated to match homepage */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
             right: 0;
-            padding: 1.5rem 1rem;
-            box-shadow: var(--shadow);
-            border-left: 1px solid var(--card-border); /* Added to match homepage */
-            overflow-y: auto;
+            background: rgba(26, 52, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
-            transition: var(--transition);
+            padding: 1rem 0;
         }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--card-border);
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.8rem;
+            padding: 0 2rem;
         }
 
-        .logo img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px;
-            border: 2px solid var(--card-border);
+            border: 2px solid var(--accent-orange);
+            background: var(--glass-bg);
+            padding: 4px;
         }
 
-        .logo h1 {
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin: 0;
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-menu {
+            display: flex;
             list-style: none;
-            margin-top: 2rem;
-        }
-
-        .nav-menu li {
-            margin-bottom: 0.8rem;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            color: white;
-            text-decoration: none;
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            transition: var(--transition);
-            background: rgba(255,255,255,0.1);
+            gap: 0.5rem;
         }
 
         .nav-menu a:hover, .nav-menu a.active {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: var(--glass-bg);
+            color: var(--accent-orange);
         }
 
-        .nav-menu a i {
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--accent-orange);
             font-size: 1.2rem;
         }
 
         /* Main Content */
         .main-content {
-            flex: 1;
-            margin-right: var(--sidebar-width);
+            margin-top: 100px;
             padding: 2rem;
-            overflow-y: auto;
-            height: 100vh;
-        }
-
-        .container {
-            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            border-bottom: 1px solid var(--card-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .page-logo {
-            width: 40;
-            height: 40;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            transition: var(--transition);
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            font-size: 0.9rem;
-        }
-
-        .nav a:hover, .nav a.active {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        /* Main Content */
-        .main {
-            padding: 2rem 0;
-        }
-
+        /* Hero Section */
         .hero {
             text-align: center;
-            margin-bottom: 3rem;
-            padding: 1rem;
+            margin-bottom: 4rem;
+            padding: 3rem 1rem;
         }
 
         .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            line-height: 1.3;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
         }
 
         .hero p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
             max-width: 100%;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
+        /* Stats Section */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 3rem;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
         }
 
         .stat-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            padding: 1.5rem 1rem;
-            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem 1rem;
+            border-radius: var(--border-radius);
             text-align: center;
             transition: var(--transition);
-            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-soft);
         }
 
         .stat-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--accent-orange);
         }
 
         .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.8;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-orange);
         }
 
         .stat-number {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .stat-label {
-            opacity: 0.9;
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
         }
 
         /* Projects Section */
         .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            padding: 0 1rem;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
         .projects-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
 
         .project-card {
-            background: #263f3d;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-soft);
             transition: var(--transition);
+            border: 1px solid var(--glass-border);
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--accent-orange);
         }
 
         .project-image {
             width: 100%;
-            height: 180px;
-            background: var(--primary-gradient);
+            height: 200px;
+            background: var(--orange-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -289,92 +270,60 @@
             overflow: hidden;
         }
 
-        .project-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
         .project-content {
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .project-title {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--text-primary);
             margin-bottom: 1rem;
             line-height: 1.4;
         }
 
         .project-description {
-            color: #ececec;
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
             line-height: 1.6;
         }
 
         .project-progress {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .progress-bar {
             width: 100%;
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 5px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             overflow: hidden;
             position: relative;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #48bb78, #38a169);
+            background: var(--orange-gradient);
             transition: width 1s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
         .progress-text {
             display: flex;
             justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: #ffffff;
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
         .project-status {
             display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -397,82 +346,87 @@
 
         /* Donation Tracking */
         .donation-tracker {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            margin: 2rem 0;
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            margin: 3rem 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .donation-tracker .section-title {
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            -webkit-text-fill-color: var(--text-primary);
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             font-weight: 600;
-            color: #2d3748;
-            font-size: 1rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: var(--border-radius);
             font-size: 1rem;
             transition: var(--transition);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
         }
 
         .btn {
-            background: #263f3d;
+            background: var(--orange-gradient);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 20px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             transition: var(--transition);
-            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-soft);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            min-height: 44px; /* Better touch target */
+            min-height: 44px;
             min-width: 44px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
+            box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4);
         }
 
         .alert {
-            padding: 1.2rem;
+            padding: 1.5rem;
             margin: 1.5rem 0;
-            border-radius: 8px;
-            border-right: 4px solid #667eea;
-            background: rgba(102, 126, 234, 0.1);
-            color: #2d3748;
+            border-radius: var(--border-radius);
+            border-right: 4px solid var(--accent-orange);
+            background: rgba(255, 140, 0, 0.1);
+            color: var(--text-primary);
             text-align: right;
         }
 
         .alert h4 {
-            margin-bottom: 0.5rem;
-            color: #667eea;
+            margin-bottom: 0.8rem;
+            color: var(--accent-orange);
         }
 
         .alert-error {
@@ -485,13 +439,13 @@
             color: #e53e3e;
         }
 
+        /* Footer */
         .footer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: var(--secondary-bg);
             text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 3rem;
-            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--glass-border);
         }
 
         /* Loading states */
@@ -511,9 +465,10 @@
 
         .loading-projects {
             text-align: center;
-            padding: 2rem;
-            font-size: 1.1rem;
+            padding: 3rem;
+            font-size: 1.2rem;
             grid-column: 1 / -1;
+            color: var(--text-secondary);
         }
 
         /* Connection Status */
@@ -521,80 +476,30 @@
             position: fixed;
             top: 10px;
             left: 10px;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
-            font-size: 11px;
+            font-size: 12px;
             z-index: 1000;
             transition: var(--transition);
             direction: ltr;
+            backdrop-filter: blur(10px);
         }
 
         .status-online {
-            background: #c6f6d5;
+            background: rgba(198, 246, 213, 0.9);
             color: #22543d;
             border: 1px solid #38a169;
         }
 
         .status-offline {
-            background: #fed7d7;
+            background: rgba(254, 215, 215, 0.9);
             color: #742a2a;
             border: 1px solid #e53e3e;
         }
 
-        /* Mobile Menu Button */
-        .menu-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid var(--card-border);
-            border-radius: 5px;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1100;
-            backdrop-filter: blur(10px);
-        }
-
         /* Responsive Design */
         /* Tablets and larger phones */
-        @media (min-width: 481px) {
-            .container {
-                padding: 0 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
-            
-            .stat-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .nav a {
-                padding: 0.6rem 1.2rem;
-                font-size: 1rem;
-            }
-        }
-
-        /* Small tablets */
         @media (min-width: 641px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
@@ -602,201 +507,92 @@
             .projects-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .page-logo {
-                font-size: 1.8rem;
-            }
         }
 
         /* Large tablets and small laptops */
         @media (min-width: 821px) {
-            .container {
-                padding: 0 2rem;
-            }
-            
-            .hero {
-                margin-bottom: 4rem;
-            }
-            
             .hero h1 {
-                font-size: 3rem;
-            }
-            
-            .section-title {
-                font-size: 2.2rem;
+                font-size: 4rem;
             }
             
             .projects-grid {
-                gap: 2rem;
-            }
-            
-            .project-card {
-                border-radius: 20px;
-            }
-            
-            .donation-tracker {
-                padding: 2.5rem;
+                gap: 2.5rem;
             }
         }
 
         /* Desktops and laptops */
         @media (min-width: 1025px) {
-            .container {
-                padding: 0 20px;
-            }
-            
             .projects-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
-            .stat-card {
-                padding: 2.5rem 2rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 80px;
+                right: 0;
+                left: 0;
+                background: rgba(26, 52, 51, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
             }
             
-            .stat-icon {
+            .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .stat-number {
-                font-size: 2.2rem;
-            }
-            
-            .nav {
-                gap: 1.5rem;
-            }
-            
-            .nav a {
-                padding: 0.75rem 1.5rem;
-            }
-        }
-
-        /* Large screens */
-        @media (min-width: 1201px) {
-            .hero h1 {
-                font-size: 3.5rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            }
-        }
-
-        /* Special adjustments for very small devices */
-        @media (max-width: 360px) {
-            .page-logo {
-                font-size: 1.3rem;
-            }
-            
-            .nav a {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
             .hero p {
-                font-size: 1rem;
-            }
-            
-            .stat-card {
-                padding: 1.2rem 0.8rem;
-            }
-            
-            .stat-icon {
-                font-size: 1.8rem;
-            }
-            
-            .stat-number {
-                font-size: 1.5rem;
-            }
-            
-            .stat-label {
-                font-size: 0.8rem;
-            }
-            
-            .btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Responsive Design for Sidebar */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(100%);
-                width: 300px;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-right: 0;
-            }
-            
-            .menu-toggle {
-                display: flex;
+                font-size: 1.2rem;
             }
         }
 
         @media (max-width: 768px) {
             .main-content {
                 padding: 1rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .services {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-info {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
+                margin-top: 80px;
             }
             
             .hero {
                 padding: 2rem 1rem;
             }
             
-            .hero h1 {
-                font-size: 1.8rem;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .about, .contact {
+            .donation-tracker {
                 padding: 1.5rem;
             }
         }
 
-        /* High resolution displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .stat-card, .project-card, .donation-tracker {
-                backdrop-filter: blur(20px);
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
             }
-        }
-
-        /* Reduced motion for accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .project-image {
+                height: 160px;
             }
         }
 
@@ -815,115 +611,89 @@
         .nav-menu li:nth-child(2) { animation-delay: 0.2s; }
         .nav-menu li:nth-child(3) { animation-delay: 0.3s; }
         .nav-menu li:nth-child(4) { animation-delay: 0.4s; }
-        .nav-menu li:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Button -->
-    <div class="menu-toggle" id="menuToggle">
-        <i class="fas fa-bars"></i>
-    </div>
+    <!-- Header - Updated to match homepage -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="images/logo.png" alt="إدارة شؤون بانياس" class="logo-image">
+                <span class="logo-text">إدارة شؤون بانياس</span>
+            </div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="logo">
-            <img src="images/logo.png" alt="إدارة شؤون بانياس">
-            <h1>إدارة شؤون بانياس</h1>
+            <nav>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="homepage.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-project-diagram"></i> المشاريع</a></li>
+                    <li><a href="https://wa.me/+963951773233" target="_blank"><i class="fab fa-whatsapp"></i> اتصل بنا</a></li>
+                    <li><a href="https://ee.kobotoolbox.org/x/egJ3DudR" target="_blank"><i class="fas fa-handshake"></i> طلب مجلس صلح</a></li>
+                </ul>
+            </nav>
         </div>
-
-        <ul class="nav-menu">
-            <li><a href="homepage.html"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
-            <li><a href="#" class="active"><i class="fas fa-project-diagram"></i> المشاريع والتبرعات</a></li>
-            <li>
-                <a href="https://wa.me/+963951773233" target="_blank">
-                <i class="fas fa-phone"></i> اتصل بنا
-                </a>
-            </li>
-            <li>
-                <a href="https://ee.kobotoolbox.org/x/egJ3DudR" target="_blank">
-                <i class="fas fa-handshake"></i> طلب مجلس صلح
-                </a>
-            </li>
-        </ul>
-    </aside>
+    </header>
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="page-logo">
-                        <img src="images/logo.png" width="40" height="40" alt="إدارة شؤون بانياس"> إدارة شؤون بانياس
-                    </div>
-                    <nav class="nav">
-                        <a href="#projects">المشاريع</a>
-                        <a href="#track">تتبع تبرعك</a>
-                    </nav>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>معاً نبني مستقبلاً أجمل</h1>
+            <p>كن جزءاً من دعم المشاريع الخدمية في مدينتنا</p>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                <div class="stat-number" id="totalProjects">0</div>
+                <div class="stat-label">المشاريع الحالية</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-number" id="totalFunding">$0</div>
+                <div class="stat-label">مجموع التبرعات</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number" id="totalDonors">0</div>
+                <div class="stat-label">عدد المتبرعون</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-number" id="completedProjects">0</div>
+                <div class="stat-label">المشاريع المكتملة</div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">المشاريع الحالية</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <div class="loading-projects">
+                    <i class="fas fa-spinner fa-spin"></i> ...يتم تحميل المشاريع
                 </div>
             </div>
-        </header>
+        </section>
 
-        <div class="container">
-            <!-- Hero Section -->
-            <section class="hero" id="home">
-                <h1>معاً نبني مستقبلاً أجمل</h1>
-                <p>كن جزءاً من دعم المشاريع الخدمية في مدينتنا</p>
-            </section>
-
-            <!-- Stats Section -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
-                    <div class="stat-number" id="totalProjects">0</div>
-                    <div class="stat-label">المشاريع الحالية</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="stat-number" id="totalFunding">$0</div>
-                    <div class="stat-label">مجموع التبرعات</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-users"></i></div>
-                    <div class="stat-number" id="totalDonors">0</div>
-                    <div class="stat-label">عدد المتبرعون</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="stat-number" id="completedProjects">0</div>
-                    <div class="stat-label">المشاريع المكتملة</div>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects">
-                <h2 class="section-title">المشاريع الحالية</h2>
-                <div class="projects-grid" id="projectsGrid">
-                    <div class="loading-projects">
-                        <i class="fas fa-spinner fa-spin"></i> ...يتم تحميل المشاريع
-                    </div>
-                </div>
-            </section>
-
-            <!-- Donation Tracker -->
-            <section class="donation-tracker" id="track">
-                <h2 class="section-title" style="color: #2d3748;">تتبع تبرعك</h2>
-                <div class="form-group">
-                    <label class="form-label" for="donationCode">أدخل كود التبرع:</label>
-                    <input type="text" id="donationCode" class="form-input" placeholder="e.g., DON2024001234">
-                </div>
-                <button class="btn" onclick="trackDonation()">
-                    <i class="fas fa-search"></i> تتبع التبرع
-                </button>
-                <div id="donationResult"></div>
-            </section>
-        </div>
+        <!-- Donation Tracker -->
+        <section class="donation-tracker" id="track">
+            <h2 class="section-title">تتبع تبرعك</h2>
+            <div class="form-group">
+                <label class="form-label" for="donationCode">أدخل كود التبرع:</label>
+                <input type="text" id="donationCode" class="form-input" placeholder="e.g., DON2024001234">
+            </div>
+            <button class="btn" onclick="trackDonation()">
+                <i class="fas fa-search"></i> تتبع التبرع
+            </button>
+            <div id="donationResult"></div>
+        </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <div class="container">
-                <p>&copy; إدارة شؤون بانياس</p>
-            </div>
+            <p>&copy; إدارة شؤون بانياس</p>
         </footer>
     </main>
 
@@ -1239,35 +1009,34 @@
             }, 1500);
         }
 
-        // Toggle mobile menu
+        // Toggle mobile menu (like homepage)
         document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
             
-            if (document.getElementById('sidebar').classList.contains('active')) {
+            if (navMenu.classList.contains('active')) {
                 this.innerHTML = '<i class="fas fa-times"></i>';
             } else {
                 this.innerHTML = '<i class="fas fa-bars"></i>';
             }
         });
 
-        // Close menu when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuToggle = document.getElementById('menuToggle');
-            
-            if (window.innerWidth <= 1024 && 
-                !sidebar.contains(event.target) && 
-                !menuToggle.contains(event.target) &&
-                sidebar.classList.contains('active')) {
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const navMenu = document.getElementById('navMenu');
+                const menuToggle = document.getElementById('menuToggle');
                 
-                sidebar.classList.remove('active');
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
+                if (window.innerWidth <= 1024) {
+                    navMenu.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
         });
 
         // Smooth scrolling for navigation
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+            const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
             
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1283,19 +1052,13 @@
                     }
                     
                     // Update active nav item
-                    document.querySelectorAll('.nav a[href^="#"]').forEach(nav => nav.classList.remove('active'));
+                    document.querySelectorAll('.nav-menu a[href^="#"]').forEach(nav => nav.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
 
             // Initialize the application
             init();
-            
-            // Add animation to service cards
-            const serviceCards = document.querySelectorAll('.service-card');
-            serviceCards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.2}s`;
-            });
         });
 
         // Handle Enter key in donation code input
@@ -1315,6 +1078,17 @@
             console.log('Gone offline, using cached data');
             isOnline = false;
             showConnectionStatus(false);
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            
+            if (window.innerWidth > 1024) {
+                navMenu.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         });
     </script>
 </body>
