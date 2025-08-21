@@ -164,18 +164,22 @@
         const { data, error } = await supabase
           .from('admin_users')
           .select('id, username, password_hash')
-          .eq('username', username)
+          .eq('username', username.trim())
           .maybeSingle();
 
         if (error) {
           // show more informative info in console for debugging
-          console.warn('Supabase query error:', error);
-          throw new Error('Invalid username or password');
+          console.error('Supabase query error:', error);
+          throw new Error('Login Error');
+        }
+
+        if (!data) {
+            throw new Error('Invalid username or password'); // no such user
         }
 
         // Simple plaintext compare (keeps your current approach)
-        if (data && data.password_hash === password) {
-          await supabase
+        if (data.password_hash === password) {
+            await supabase
             .from('admin_users')
             .update({ last_login: new Date() })
             .eq('id', data.id);
