@@ -950,6 +950,15 @@
             SUPABASE_ANON_KEY = config.key || SUPABASE_ANON_KEY;
         }
 
+        function checkAuth() {
+        const isAuthenticated = localStorage.getItem('adminAuthenticated') === 'true';
+            if (!isAuthenticated) {
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+        }
+
         let supabase;
         let isOnline = false;
         let editingProject = null;
@@ -1393,6 +1402,9 @@
 
         // Initialize application
         async function init() {
+            if (!checkAuth()) return;
+            const username = localStorage.getItem('adminUsername') || 'Administrator';
+            document.querySelector('.user-info span').textContent = `Welcome, ${username}`;
             showLoadingState();
             
             try {
@@ -1878,8 +1890,10 @@
         }
 
         function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'index.html';
+        if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('adminAuthenticated');
+        localStorage.removeItem('adminUsername');
+        window.location.href = 'login.html';
             }
         }
 
