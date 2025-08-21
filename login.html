@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script> 
     <style>
         * {
             margin: 0;
@@ -145,56 +145,56 @@
         const SUPABASE_URL = 'https://ujhqnrffbeullidlzpxz.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
 
-        // Initialize Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        if (!window.supabase || !window.supabase.createClient) {
+    console.error('Supabase client library not loaded.');
+    // Optionally show a friendly message to user:
+    document.getElementById('loginMessage').textContent = 'App not configured (missing library).';
+    document.getElementById('loginMessage').style.display = 'block';
+  } else {
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageEl = document.getElementById('loginMessage');
-            
-            try {
-                // Query the admin_users table for the provided credentials
-                const { data, error } = await supabase
-                    .from('admin_users')
-                    .select('*')
-                    .eq('username', username)
-                    .single();
-                
-                if (error) {
-                    throw new Error('Invalid username or password');
-                }
-                
-                // Compare the provided password with the stored password_hash
-                if (data.password_hash === password) {
-                    // Update last login time
-                    await supabase
-                        .from('admin_users')
-                        .update({ last_login: new Date().toISOString() })
-                        .eq('id', data.id);
-                    
-                    // Store authentication status
-                    localStorage.setItem('adminAuthenticated', 'true');
-                    localStorage.setItem('adminUsername', username);
-                    
-                    // Redirect to admin panel
-                    window.location.href = 'admin.html';
-                } else {
-                    throw new Error('Invalid username or password');
-                }
-            } catch (error) {
-                messageEl.textContent = error.message;
-                messageEl.style.display = 'block';
-                messageEl.className = 'alert';
-                
-                // Hide message after 3 seconds
-                setTimeout(() => {
-                    messageEl.style.display = 'none';
-                }, 3000);
-            }
-        });
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const messageEl = document.getElementById('loginMessage');
+
+      try {
+        // Query for username
+        const { data, error } = await supabase
+          .from('admin_users')
+          .select('id, username, password_hash')
+          .eq('username', username)
+          .single();
+
+        if (error) {
+          // show more informative info in console for debugging
+          console.warn('Supabase query error:', error);
+          throw new Error('Invalid username or password');
+        }
+
+        // Simple plaintext compare (keeps your current approach)
+        if (data && data.password_hash === password) {
+          await supabase
+            .from('admin_users')
+            .update({ last_login: new Date() })
+            .eq('id', data.id);
+
+          localStorage.setItem('adminAuthenticated', 'true');
+          localStorage.setItem('adminUsername', username);
+          window.location.href = 'admin.html';
+        } else {
+          throw new Error('Invalid username or password');
+        }
+      } catch (err) {
+        console.error('Login failed:', err);
+        messageEl.textContent = err.message || 'Login error';
+        messageEl.style.display = 'block';
+        messageEl.className = 'alert';
+        setTimeout(() => { messageEl.style.display = 'none'; }, 3000);
+      }
+    });
+}
     </script>
 </body>
 </html>
