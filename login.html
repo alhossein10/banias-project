@@ -165,7 +165,7 @@
           .from('admin_users')
           .select('id, username, password_hash')
           .eq('username', username)
-          .single();
+          .maybeSingle();
 
         if (error) {
           // show more informative info in console for debugging
