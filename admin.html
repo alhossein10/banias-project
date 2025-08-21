@@ -928,6 +928,10 @@
                             <option value="تم التبرع">تم التبرع</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                    <label class="form-label">Donor Name</label>
+                    <input type="text" id="donorName" class="form-input" placeholder="Enter donor name">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -1179,7 +1183,8 @@
                             project_id: donation.projectId || donation.project_id,
                             amount: donation.amount,
                             date: donation.date,
-                            status: donation.status
+                            status: donation.status,
+                            name: donation.name || null
                         };
 
                         const { data, error } = await supabase
@@ -1192,7 +1197,7 @@
                         
                         this.donations.push(data);
                         
-                        if (data.status === 'completed') {
+                        if (data.status === 'تم التبرع') {
                             await this.updateProjectRaisedAmount(data.project_id, data.amount, 'add');
                         }
                         
@@ -1204,7 +1209,7 @@
                     }
                 } else {
                     this.donations.push(donation);
-                    if (donation.status === 'completed') {
+                    if (donation.status === 'تم التبرع') {
                         const project = this.projects.find(p => p.id === (donation.projectId || donation.project_id));
                         if (project) {
                             project.raised += donation.amount;
