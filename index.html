@@ -194,6 +194,7 @@
             text-align: center;
             transition: var(--transition);
             box-shadow: var(--shadow-soft);
+            cursor: pointer; /* Added for clickable cards */
         }
 
         .stat-card:hover {
@@ -659,7 +660,7 @@
                 <div class="stat-number" id="totalFunding">$0</div>
                 <div class="stat-label">مجموع التبرعات</div>
             </div>
-            <div href="projects.html" class="stat-card">
+            <div class="stat-card" id="donorsCard" onclick="navigateToDonations()">
                 <div class="stat-icon"><i class="fas fa-users"></i></div>
                 <div class="stat-number" id="totalDonors">0</div>
                 <div class="stat-label">عدد المتبرعون</div>
@@ -709,6 +710,11 @@
         let isOnline = false;
         let projects = [];
         let donations = [];
+
+        // Function to navigate to donations page
+        function navigateToDonations() {
+            window.location.href = 'donations.html';
+        }
 
         // Initialize connection and load data
         async function init() {
