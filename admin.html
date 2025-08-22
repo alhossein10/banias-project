@@ -6,6 +6,9 @@
     <title>Admin Panel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Add this in the head section after the existing scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -695,6 +698,11 @@
                     <i class="fas fa-plus"></i> Add New Donation
                 </button>
             </div>
+
+            <!-- Add this button right after the existing "Add New Donation" button -->
+            <button class="btn btn-success" onclick="exportDonationsPDF()">
+            <i class="fas fa-file-pdf"></i> Export to PDF
+            </button>
 
             <div class="table-container">
                 <div class="table-header">
@@ -1963,6 +1971,49 @@
             isOnline = false;
             showConnectionStatus();
         });
+        // Add the PDF export function
+        function exportDonationsPDF() {
+            // Initialize jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(18);
+            doc.text('Donations Report', 14, 15);
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 22);
+            
+            // Prepare table data
+            const tableData = dataManager.donations.map(donation => {
+                const projectId = donation.project_id || donation.projectId;
+                const project = dataManager.projects.find(p => p.id === projectId);
+                
+                return [
+                    donation.code,
+                    donation.name || 'N/A',
+                    project ? project.title : 'Unknown Project',
+                    `$${donation.amount.toLocaleString()}`,
+                    new Date(donation.date).toLocaleDateString()
+                ];
+            });
+            
+            // Add table
+            doc.autoTable({
+                head: [['Code', 'Donor Name', 'Project', 'Amount', 'Date']],
+                body: tableData,
+                startY: 30,
+                theme: 'grid',
+                styles: { fontSize: 9 },
+                headStyles: { fillColor: [66, 139, 202] }
+            });
+            
+            // Save the PDF
+            const dateStr = new Date().toISOString().slice(0, 10);
+            doc.save(`donations-report-${dateStr}.pdf`);
+            
+            showAlert('PDF exported successfully!', 'success');
+        }
     </script>
 </body>
 </html>
