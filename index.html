@@ -650,7 +650,7 @@
 
         <!-- Stats Section -->
         <section class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" onclick="navigateToProjects()">
                 <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
                 <div class="stat-number" id="totalProjects">0</div>
                 <div class="stat-label">المشاريع الحالية</div>
@@ -710,6 +710,17 @@
         let isOnline = false;
         let projects = [];
         let donations = [];
+
+        // Function to navigate to projects section
+        function navigateToProjects() {
+            const projectsSection = document.getElementById('projects');
+            if (projectsSection) {
+                projectsSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
 
         // Function to navigate to donations page
         function navigateToDonations() {
