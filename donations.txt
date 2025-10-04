@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة التبرعات</title>
+    <title>تبرعات بانياس - إدارة شؤون بانياس</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -169,56 +168,6 @@
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto;
-        }
-
-        /* Connection Status */
-        .connection-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            padding: 0.8rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .status-online {
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.3);
-            color: #00c853;
-        }
-
-        .status-offline {
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            color: #ffc107;
-        }
-
-        /* Loading State */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 4rem;
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            gap: 1rem;
-        }
-
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid var(--glass-border);
-            border-top: 3px solid var(--accent-orange);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* Donations Grid */
@@ -572,7 +521,7 @@
                     <i class="fas fa-bars"></i>
                 </div>
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="homepage.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
                     <li><a href="projects.html"><i class="fas fa-project-diagram"></i> المشاريع</a></li>
                     <li><a href="donations.html" class="active"><i class="fas fa-hand-holding-usd"></i> التبرعات</a></li>
                     <li><a href="https://ee.kobotoolbox.org/x/egJ3DudR" target="_blank"><i class="fas fa-handshake"></i> طلب مجلس صلح</a></li>
@@ -587,26 +536,19 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="page-header">
-            <h1 class="page-title">التبرعات والمساهمات</h1>
-            <p class="page-subtitle">شكراً لكل من ساهم في دعم مشاريعنا في مدينة بانياس. تبرعاتكم تساعدنا على تحسين الخدمات وتنفيذ المشاريع التنموية.</p>
-        </div>
-
-        <div class="connection-status" id="connectionStatus">
-            <div class="spinner"></div>
-            <span>جاري التحقق من الاتصال بقاعدة البيانات...</span>
+            <h1 class="page-title">التبرعات والمبادرات</h1>
+            <p class="page-subtitle">شكراً لكل من ساهم في دعم مشاريعنا التنموية في مدينة بانياس. تبرعاتكم تساعدنا على تحسين الخدمات وتنفيذ المشاريع الحيوية.</p>
         </div>
 
         <div class="filters">
             <button class="filter-btn active" data-filter="all">جميع التبرعات</button>
-            <button class="filter-btn" data-filter="تم التبرع">تم التبرع</button>
-            <button class="filter-btn" data-filter="مجدول">مجدول</button>
+            <button class="filter-btn" data-filter="completed">تم التبرع</button>
+            <button class="filter-btn" data-filter="scheduled">مجدول</button>
+            <button class="filter-btn" data-filter="large">تبرعات كبيرة</button>
         </div>
 
         <div class="donations-grid" id="donationsContainer">
-            <div class="loading">
-                <div class="spinner"></div>
-                <span>جاري تحميل التبرعات...</span>
-            </div>
+            <!-- Donation cards will be dynamically inserted here -->
         </div>
     </main>
 
@@ -618,186 +560,85 @@
             <a href="#" class="social-link"><i class="fab fa-github"></i></a>
             <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
         </div>
-        <p class="footer-text">&copy;  إدارة شؤون بانياس.</p>
+        <p class="footer-text">&copy; 2023 إدارة شؤون بانياس. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
-        // Configuration - Use the same credentials as admin panel
-        let SUPABASE_URL = 'https://ujhqnrffbeullidlzpxz.supabase.co';
-        let SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
-
-        // Load configuration from localStorage if available (matching admin panel)
-        const savedConfig = localStorage.getItem('lattakia_backend_config');
-        if (savedConfig) {
-            const config = JSON.parse(savedConfig);
-            SUPABASE_URL = config.url || SUPABASE_URL;
-            SUPABASE_ANON_KEY = config.key || SUPABASE_ANON_KEY;
-        }
-
-        let supabase;
-        let isOnline = false;
-        let allDonations = [];
-        let allProjects = [];
-
-        // Initialize Supabase and load data
-        async function initializeData() {
-            try {
-                // Initialize Supabase client
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                
-                // Test connection and load data
-                await Promise.all([loadProjects(), loadDonations()]);
-                
-                isOnline = true;
-                updateConnectionStatus(true);
-                renderDonations(allDonations);
-                
-                console.log('Successfully connected to Supabase');
-                console.log('Projects loaded:', allProjects.length);
-                console.log('Donations loaded:', allDonations.length);
-                
-            } catch (error) {
-                console.warn('Database connection failed, using localStorage:', error.message);
-                loadFromLocalStorage();
-                isOnline = false;
-                updateConnectionStatus(false);
-                renderDonations(allDonations);
+        // Sample donation data (in a real scenario, this would come from an API or database)
+        const donationsData = [
+            {
+                id: 1,
+                donorName: "أحمد السعدي",
+                projectName: "تطوير المركز الصحي",
+                amount: 500000,
+                date: "2023-10-15",
+                status: "completed",
+                projectProgress: 75,
+                currency: "SYP"
+            },
+            {
+                id: 2,
+                donorName: "شركة الأمان للتجارة",
+                projectName: "تشجير الحدائق العامة",
+                amount: 2500000,
+                date: "2023-09-22",
+                status: "completed",
+                projectProgress: 100,
+                currency: "SYP"
+            },
+            {
+                id: 3,
+                donorName: "مؤسسة الخير للتنمية",
+                projectName: "بناء ملعب للأطفال",
+                amount: 1500000,
+                date: "2023-11-05",
+                status: "scheduled",
+                projectProgress: 30,
+                currency: "SYP"
+            },
+            {
+                id: 4,
+                donorName: "محمد الحسين",
+                projectName: "تأهيل المدارس",
+                amount: 750000,
+                date: "2023-08-17",
+                status: "completed",
+                projectProgress: 90,
+                currency: "SYP"
+            },
+            {
+                id: 5,
+                donorName: "جمعية نور الإنسانية",
+                projectName: "توزيع السلال الغذائية",
+                amount: 3000000,
+                date: "2023-12-01",
+                status: "scheduled",
+                projectProgress: 15,
+                currency: "SYP"
+            },
+            {
+                id: 6,
+                donorName: "لجنة أهالي الحي",
+                projectName: "إنارة الشوارع",
+                amount: 1200000,
+                date: "2023-07-29",
+                status: "completed",
+                projectProgress: 100,
+                currency: "SYP"
             }
-        }
+        ];
 
-        // Load projects from database
-        async function loadProjects() {
-            try {
-                const { data, error } = await supabase
-                    .from('projects')
-                    .select('*')
-                    .order('id');
-                
-                if (error) throw error;
-                
-                allProjects = data || [];
-                localStorage.setItem('lattakia_projects_public', JSON.stringify(allProjects));
-                
-            } catch (error) {
-                console.error('Error loading projects:', error);
-                const saved = localStorage.getItem('lattakia_projects_public');
-                allProjects = saved ? JSON.parse(saved) : getDefaultProjects();
+        // Format currency based on type
+        function formatCurrency(amount, currency) {
+            if (currency === "SYP") {
+                return amount.toLocaleString('ar-SY') + " ل.س";
+            } else if (currency === "USD") {
+                return "$" + amount.toLocaleString('en-US');
             }
+            return amount.toLocaleString('ar-SY');
         }
 
-        // Load donations from database
-        async function loadDonations() {
-            try {
-                const { data, error } = await supabase
-                    .from('donations')
-                    .select('*')
-                    .order('date', { ascending: false });
-                
-                if (error) throw error;
-                
-                allDonations = data || [];
-                localStorage.setItem('lattakia_donations_public', JSON.stringify(allDonations));
-                
-            } catch (error) {
-                console.error('Error loading donations:', error);
-                const saved = localStorage.getItem('lattakia_donations_public');
-                allDonations = saved ? JSON.parse(saved) : getDefaultDonations();
-            }
-        }
-
-        // Load from localStorage as fallback
-        function loadFromLocalStorage() {
-            const savedProjects = localStorage.getItem('lattakia_projects_public') || 
-                                localStorage.getItem('lattakia_projects');
-            const savedDonations = localStorage.getItem('lattakia_donations_public') || 
-                                 localStorage.getItem('lattakia_donations');
-            
-            allProjects = savedProjects ? JSON.parse(savedProjects) : getDefaultProjects();
-            allDonations = savedDonations ? JSON.parse(savedDonations) : getDefaultDonations();
-        }
-
-        // Default data fallbacks
-        function getDefaultProjects() {
-            return [
-                {
-                    id: 1,
-                    title: "تطوير المركز الصحي",
-                    description: "تجديد وتطوير المركز الصحي المحلي",
-                    budget: 50000,
-                    raised: 35000,
-                    status: "active"
-                },
-                {
-                    id: 2,
-                    title: "تشجير الحدائق العامة",
-                    description: "زراعة الأشجار في الحدائق العامة",
-                    budget: 25000,
-                    raised: 25000,
-                    status: "completed"
-                }
-            ];
-        }
-
-        function getDefaultDonations() {
-            return [
-                {
-                    code: "DON2024001234",
-                    project_id: 1,
-                    amount: 500,
-                    date: "2024-03-15",
-                    status: "تم التبرع",
-                    name: "أحمد السعدي"
-                },
-                {
-                    code: "DON2024001235", 
-                    project_id: 2,
-                    amount: 1000,
-                    date: "2024-03-16",
-                    status: "تم التبرع",
-                    name: "شركة الأمان للتجارة"
-                }
-            ];
-        }
-
-        // Update connection status display
-        function updateConnectionStatus(online) {
-            const statusElement = document.getElementById('connectionStatus');
-            if (online) {
-                statusElement.className = 'connection-status status-online';
-                statusElement.innerHTML = '<i class="fas fa-wifi"></i> متصل بقاعدة البيانات';
-            } else {
-                statusElement.className = 'connection-status status-offline';
-                statusElement.innerHTML = '<i class="fas fa-wifi-slash"></i> وضع عدم الاتصال - البيانات المحفوظة محلياً';
-            }
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                statusElement.style.opacity = '0.5';
-            }, 5000);
-        }
-
-        // Get project by ID
-        function getProjectById(projectId) {
-            return allProjects.find(p => p.id === projectId) || {
-                id: projectId,
-                title: "مشروع غير معروف",
-                budget: 0,
-                raised: 0
-            };
-        }
-
-        // Calculate progress percentage
-        function calculateProgress(project) {
-            if (!project.budget || project.budget === 0) return 0;
-            return Math.min(100, Math.round((project.raised / project.budget) * 100));
-        }
-
-        // Format currency (assuming SYP as default)
-        function formatCurrency(amount) {
-            return amount.toLocaleString('ar-SY') + "$";
-        }
-
-        // Format date to Arabic
+        // Format date to Arabic format
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('ar-SA', {
@@ -805,14 +646,6 @@
                 month: 'long',
                 day: 'numeric'
             });
-        }
-
-        // Get donor name
-        function getDonorName(donation) {
-            if (donation.name && donation.name.trim()) {
-                return donation.name.trim();
-            }
-            return "متبرع مجهول";
         }
 
         // Render donation cards
@@ -833,32 +666,27 @@
             container.innerHTML = '';
             
             donations.forEach(donation => {
-                const projectId = donation.project_id || donation.projectId;
-                const project = getProjectById(projectId);
-                const progress = calculateProgress(project);
-                const donorName = getDonorName(donation);
-                
                 const card = document.createElement('div');
                 card.className = 'donation-card';
                 card.innerHTML = `
                     <div class="card-header">
-                        <h3 class="project-name">${project.title}</h3>
+                        <h3 class="project-name">${donation.projectName}</h3>
                         <div class="donor-name">
                             <i class="fas fa-user"></i>
-                            ${donorName}
+                            ${donation.donorName}
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="donation-details">
                             <div class="detail-item">
                                 <span class="detail-label">المبلغ</span>
-                                <span class="detail-value amount">${formatCurrency(donation.amount)}</span>
+                                <span class="detail-value amount">${formatCurrency(donation.amount, donation.currency)}</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">الحالة</span>
                                 <span class="detail-value">
-                                    <span class="status-badge status-${donation.status === 'تم التبرع' ? 'completed' : 'scheduled'}">
-                                        ${donation.status}
+                                    <span class="status-badge status-${donation.status}">
+                                        ${donation.status === 'completed' ? 'تم التبرع' : 'مجدول'}
                                     </span>
                                 </span>
                             </div>
@@ -866,10 +694,10 @@
                         <div class="progress-section">
                             <div class="progress-header">
                                 <span class="progress-label">تقدم المشروع</span>
-                                <span class="progress-value">${progress}%</span>
+                                <span class="progress-value">${donation.projectProgress}%</span>
                             </div>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${progress}%"></div>
+                                <div class="progress-fill" style="width: ${donation.projectProgress}%"></div>
                             </div>
                         </div>
                     </div>
@@ -878,7 +706,7 @@
                             <i class="far fa-calendar-alt"></i>
                             ${formatDate(donation.date)}
                         </span>
-                        <a href="projects.html#project-${project.id}" class="view-project">
+                        <a href="#" class="view-project">
                             عرض المشروع <i class="fas fa-arrow-left"></i>
                         </a>
                     </div>
@@ -890,72 +718,23 @@
 
         // Filter donations based on selected filter
         function filterDonations(filter) {
-            let filteredDonations = [...allDonations];
+            let filteredDonations = [...donationsData];
             
-            if (filter === 'تم التبرع') {
-                filteredDonations = allDonations.filter(d => d.status === 'تم التبرع');
-            } else if (filter === 'مجدول') {
-                filteredDonations = allDonations.filter(d => d.status === 'مجدول');
+            if (filter === 'completed') {
+                filteredDonations = donationsData.filter(d => d.status === 'completed');
+            } else if (filter === 'scheduled') {
+                filteredDonations = donationsData.filter(d => d.status === 'scheduled');
             } else if (filter === 'large') {
-                // Large donations (over 1000)
-                filteredDonations = allDonations.filter(d => d.amount > 1000);
+                filteredDonations = donationsData.filter(d => d.amount > 1000000);
             }
             
             renderDonations(filteredDonations);
         }
 
-        // Setup real-time updates if online
-        function setupRealTimeUpdates() {
-            if (!isOnline || !supabase) return;
-
-            // Listen for donations changes
-            supabase
-                .channel('donations-changes')
-                .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'donations' }, 
-                    async (payload) => {
-                        console.log('Donations changed:', payload);
-                        await loadDonations();
-                        
-                        // Re-render with current filter
-                        const activeFilter = document.querySelector('.filter-btn.active');
-                        if (activeFilter) {
-                            const filter = activeFilter.getAttribute('data-filter');
-                            filterDonations(filter);
-                        } else {
-                            renderDonations(allDonations);
-                        }
-                    })
-                .subscribe();
-
-            // Listen for projects changes
-            supabase
-                .channel('projects-changes')
-                .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'projects' }, 
-                    async (payload) => {
-                        console.log('Projects changed:', payload);
-                        await loadProjects();
-                        
-                        // Re-render donations to update project info
-                        const activeFilter = document.querySelector('.filter-btn.active');
-                        if (activeFilter) {
-                            const filter = activeFilter.getAttribute('data-filter');
-                            filterDonations(filter);
-                        } else {
-                            renderDonations(allDonations);
-                        }
-                    })
-                .subscribe();
-        }
-
         // Initialize page
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Initialize data connection
-            await initializeData();
-            
-            // Setup real-time updates
-            setupRealTimeUpdates();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render all donations initially
+            renderDonations(donationsData);
             
             // Add event listeners to filter buttons
             document.querySelectorAll('.filter-btn').forEach(button => {
@@ -998,39 +777,6 @@
                     }
                 });
             });
-
-            // Auto-refresh data every 30 seconds if online
-            setInterval(async () => {
-                if (isOnline && supabase) {
-                    try {
-                        await Promise.all([loadProjects(), loadDonations()]);
-                        
-                        // Re-render with current filter
-                        const activeFilter = document.querySelector('.filter-btn.active');
-                        if (activeFilter) {
-                            const filter = activeFilter.getAttribute('data-filter');
-                            filterDonations(filter);
-                        } else {
-                            renderDonations(allDonations);
-                        }
-                    } catch (error) {
-                        console.error('Auto-refresh failed:', error);
-                    }
-                }
-            }, 30000);
-        });
-
-        // Handle online/offline events
-        window.addEventListener('online', async () => {
-            console.log('Back online, attempting to reconnect...');
-            await initializeData();
-            setupRealTimeUpdates();
-        });
-
-        window.addEventListener('offline', () => {
-            console.log('Gone offline, using localStorage');
-            isOnline = false;
-            updateConnectionStatus(false);
         });
     </script>
 </body>

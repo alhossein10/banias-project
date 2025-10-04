@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المشاريع</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #001e1c;
+            --secondary-bg: #1a3433;
+            --accent-orange: #ff8c00;
+            --accent-yellow: #ffa500;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+            --orange-gradient: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+            --card-bg: rgba(38, 63, 61, 0.7);
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-bg);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--text-primary);
+            text-align: right;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #1a3433 0%, #001e1c 50%, #1a3433 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header - Updated to match homepage */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 52, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-orange);
+            background: var(--glass-bg);
+            padding: 4px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: var(--glass-bg);
+            color: var(--accent-orange);
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+            cursor: pointer; /* Added for clickable cards */
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--accent-orange);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-orange);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Projects Section */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: var(--orange-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--accent-orange);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: var(--orange-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .project-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--orange-gradient);
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            color: #22543d;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            color: #2a4365;
+        }
+
+        .status-planned {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            color: #742a2a;
+        }
+
+        /* Donation Tracking */
+        .donation-tracker {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            margin: 3rem 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .donation-tracker .section-title {
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            -webkit-text-fill-color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .btn {
+            background: var(--orange-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4);
+        }
+
+        .alert {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--border-radius);
+            border-right: 4px solid var(--accent-orange);
+            background: rgba(255, 140, 0, 0.1);
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .alert h4 {
+            margin-bottom: 0.8rem;
+            color: var(--accent-orange);
+        }
+
+        .alert-error {
+            border-right-color: #e53e3e;
+            background: rgba(229, 62, 62, 0.1);
+            color: #742a2a;
+        }
+
+        .alert-error h4 {
+            color: #e53e3e;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-bg);
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Loading states */
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-projects {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+            color: var(--text-secondary);
+        }
+
+        /* Connection Status */
+        .connection-status {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            transition: var(--transition);
+            direction: ltr;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-online {
+            background: rgba(198, 246, 213, 0.9);
+            color: #22543d;
+            border: 1px solid #38a169;
+        }
+
+        .status-offline {
+            background: rgba(254, 215, 215, 0.9);
+            color: #742a2a;
+            border: 1px solid #e53e3e;
+        }
+
+        /* Responsive Design */
+        /* Tablets and larger phones */
+        @media (min-width: 641px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Large tablets and small laptops */
+        @media (min-width: 821px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            
+            .projects-grid {
+                gap: 2.5rem;
+            }
+        }
+
+        /* Desktops and laptops */
+        @media (min-width: 1025px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 80px;
+                right: 0;
+                left: 0;
+                background: rgba(26, 52, 51, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+                margin-top: 80px;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .donation-tracker {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .project-image {
+                height: 160px;
+            }
+        }
+
+        /* Animation for menu items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-menu li {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .nav-menu li:nth-child(1) { animation-delay: 0.1s; }
+        .nav-menu li:nth-child(2) { animation-delay: 0.2s; }
+        .nav-menu li:nth-child(3) { animation-delay: 0.3s; }
+        .nav-menu li:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="images/logo.png" alt="إدارة شؤون بانياس" class="logo-image">
+                <span class="logo-text">إدارة شؤون بانياس</span>
+            </div>
+
+            <nav>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="homepage.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="projects.html" class="active"><i class="fas fa-project-diagram"></i> المشاريع</a></li>
+                    <li><a href="donations.html"><i class="fas fa-hand-holding-usd"></i> التبرعات</a></li>
+                    <li><a href="https://ee.kobotoolbox.org/x/egJ3DudR" target="_blank"><i class="fas fa-handshake"></i> طلب مجلس صلح</a></li>
+                    <li><a href="https://ee.kobotoolbox.org/x/tzNoPbeg" target="_blank"><i class="fas fa-exclamation-triangle"></i> تقديم شكوى خدمية</a></li>
+                    <li><a href="https://ee.kobotoolbox.org/x/lucqkDBF" target="_blank"><i class="fas fa-lightbulb"></i> طرح مبادرة</a></li>
+                    <li><a href="https://wa.me/+963951773233" target="_blank"><i class="fab fa-whatsapp"></i> اتصل بنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>معاً نبني مستقبلاً أجمل</h1>
+            <p>كن جزءاً من دعم المشاريع الخدمية في مدينتنا</p>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                <div class="stat-number" id="totalProjects">0</div>
+                <div class="stat-label">المشاريع الحالية</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-number" id="totalFunding">$0</div>
+                <div class="stat-label">مجموع التبرعات</div>
+            </div>
+            <div class="stat-card" id="donorsCard" onclick="navigateToDonations()">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number" id="totalDonors">0</div>
+                <div class="stat-label">عدد المتبرعون</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-number" id="completedProjects">0</div>
+                <div class="stat-label">المشاريع المكتملة</div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">المشاريع الحالية</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <div class="loading-projects">
+                    <i class="fas fa-spinner fa-spin"></i> ...يتم تحميل المشاريع
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Tracker -->
+        <section class="donation-tracker" id="track">
+            <h2 class="section-title">تتبع تبرعك</h2>
+            <div class="form-group">
+                <label class="form-label" for="donationCode">أدخل كود التبرع:</label>
+                <input type="text" id="donationCode" class="form-input" placeholder="e.g., DON2024001234">
+            </div>
+            <button class="btn" onclick="trackDonation()">
+                <i class="fas fa-search"></i> تتبع التبرع
+            </button>
+            <div id="donationResult"></div>
+        </section>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; إدارة شؤون بانياس</p>
+    </footer>
+    </main>
+
+    <script>
+        // Configuration - REPLACE WITH YOUR SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://ujhqnrffbeullidlzpxz.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqaHFucmZmYmV1bGxpZGx6cHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNDY5MDIsImV4cCI6MjA3MDkyMjkwMn0.lCz9ZCFNaY3CqRKD4i0bj6g8gqu12AlUd9bLBSUDHM4';
+
+        let supabase;
+        let isOnline = false;
+        let projects = [];
+        let donations = [];
+
+        // Function to navigate to donations page
+        function navigateToDonations() {
+            window.location.href = 'donations.html';
+        }
+
+        // Initialize connection and load data
+        async function init() {
+            try {
+                // Connect to Supabase
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                // Load data from database
+                await loadFromDatabase();
+                isOnline = true;
+                showConnectionStatus(true);
+                
+                // Set up real-time subscriptions
+                setupRealTimeSync();
+                
+                console.log('Connected to Supabase database');
+            } catch (error) {
+                console.warn('Database connection failed, using fallback data:', error);
+                loadFallbackData();
+                isOnline = false;
+                showConnectionStatus(false);
+            }
+            
+            renderProjects();
+            updateStats();
+            
+            // Set up auto-refresh every 30 seconds
+            setInterval(async () => {
+                if (isOnline) {
+                    try {
+                        await loadFromDatabase();
+                        renderProjects();
+                        updateStats();
+                    } catch (error) {
+                        console.error('Auto-refresh failed:', error);
+                    }
+                }
+            }, 30000);
+        }
+
+        // Load data from Supabase database
+        async function loadFromDatabase() {
+            try {
+                const [projectsResponse, donationsResponse] = await Promise.all([
+                    supabase.from('projects').select('*').order('id'),
+                    supabase.from('donations').select('*').order('date', { ascending: false })
+                ]);
+
+                if (projectsResponse.error) throw projectsResponse.error;
+                if (donationsResponse.error) throw donationsResponse.error;
+
+                projects = projectsResponse.data || [];
+                donations = donationsResponse.data || [];
+
+                console.log(`Loaded ${projects.length} projects and ${donations.length} donations from database`);
+            } catch (error) {
+                throw new Error('Failed to load data from database: ' + error.message);
+            }
+        }
+
+        // Fallback data if database is not available
+        function loadFallbackData() {
+            const savedProjects = localStorage.getItem('lattakia_projects');
+            const savedDonations = localStorage.getItem('lattakia_donations');
+            
+            projects = savedProjects ? JSON.parse(savedProjects) : [
+                {
+                    id: 1,
+                    title: "Community Center Renovation",
+                    description: "Renovating the central community center to serve local families with improved facilities including modern meeting rooms, recreational areas, and accessibility features.",
+                    budget: 50000,
+                    raised: 35000,
+                    status: "active",
+                    image: "fas fa-building"
+                },
+                {
+                    id: 2,
+                    title: "School Infrastructure Improvement", 
+                    description: "Upgrading school facilities including classrooms, library, computer lab, and creating a safe learning environment for over 500 students.",
+                    budget: 75000,
+                    raised: 45000,
+                    status: "active",
+                    image: "fas fa-school"
+                }
+            ];
+            
+            donations = savedDonations ? JSON.parse(savedDonations) : [
+                {
+                    code: "DON2024001234",
+                    project_id: 1,
+                    amount: 500,
+                    date: "2024-03-15",
+                    status: "completed"
+                }
+            ];
+        }
+
+        // Set up real-time synchronization
+        function setupRealTimeSync() {
+            if (!supabase || !isOnline) return;
+
+            // Listen for project changes
+            supabase
+                .channel('projects-changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, 
+                    async (payload) => {
+                        console.log('Project change detected:', payload);
+                        await loadFromDatabase();
+                        renderProjects();
+                        updateStats();
+                    })
+                .subscribe();
+
+            // Listen for donation changes
+            supabase
+                .channel('donations-changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'donations' }, 
+                    async (payload) => {
+                        console.log('Donation change detected:', payload);
+                        await loadFromDatabase();
+                        updateStats();
+                    })
+                .subscribe();
+        }
+
+        // Show connection status
+        function showConnectionStatus(online) {
+            // Remove existing status
+            const existing = document.querySelector('.connection-status');
+            if (existing) existing.remove();
+
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `connection-status ${online ? 'status-online' : 'status-offline'}`;
+            statusDiv.innerHTML = `
+                <i class="fas fa-${online ? 'wifi' : 'wifi-slash'}"></i> 
+                ${online ? 'Live Data' : 'Offline Mode'}
+            `;
+            
+            document.body.appendChild(statusDiv);
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.style.opacity = '0';
+                    setTimeout(() => statusDiv.remove(), 300);
+                }
+            }, 3000);
+        }
+
+        // Render projects with enhanced design
+        function renderProjects() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            projectsGrid.innerHTML = '';
+
+            if (projects.length === 0) {
+                projectsGrid.innerHTML = `
+                    <div class="loading-projects">
+                        <i class="fas fa-info-circle"></i> No projects found
+                    </div>
+                `;
+                return;
+            }
+            
+            projects.forEach((project, index) => {
+                const progressPercent = Math.min((project.raised / project.budget * 100), 100).toFixed(1);
+                const statusClass = `status-${project.status}`;
+                
+                setTimeout(() => {
+                    const projectCard = document.createElement('div');
+                    projectCard.className = 'project-card';
+                    projectCard.style.opacity = '0';
+                    projectCard.style.transform = 'translateY(30px)';
+                    
+                    projectCard.innerHTML = `
+                        <div class="project-image">
+                            <i class="${project.image || 'fas fa-project-diagram'}"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">${project.title}</h3>
+                            <p class="project-description">${project.description}</p>
+                            <div class="project-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>تم جمع ${project.raised.toLocaleString()}</span>
+                                    <span>الهدف ${project.budget.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            <span class="project-status ${statusClass}">${project.status.toUpperCase()}</span>
+                        </div>
+                    `;
+                    
+                    projectsGrid.appendChild(projectCard);
+                    
+                    // Animate card appearance
+                    setTimeout(() => {
+                        projectCard.style.transition = 'all 0.6s ease';
+                        projectCard.style.opacity = '1';
+                        projectCard.style.transform = 'translateY(0)';
+                        
+                        // Animate progress bar after card appears
+                        setTimeout(() => {
+                            const progressFill = projectCard.querySelector('.progress-fill');
+                            progressFill.style.width = `${progressPercent}%`;
+                        }, 300);
+                    }, 100);
+                }, index * 200);
+            });
+        }
+
+        // FIXED: Update statistics with correct donor count
+        function updateStats() {
+            const activeProjects = projects.filter(p => p.status === 'active').length;
+            const completedProjects = projects.filter(p => p.status === 'completed').length;
+            const totalFunding = projects.reduce((sum, p) => sum + p.raised, 0);
+            // FIXED: Use actual donation count instead of multiplying by arbitrary number
+            const totalDonors = donations.length;
+
+            // Animate number updates
+            animateNumber('totalProjects', activeProjects);
+            animateNumber('completedProjects', completedProjects);
+            animateValue('totalFunding', totalFunding, (val) => `${(val / 1000).toFixed(0)}K`);
+            animateNumber('totalDonors', totalDonors);
+        }
+
+        function animateNumber(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            const currentValue = parseInt(element.textContent) || 0;
+            const increment = (targetValue - currentValue) / 20;
+            let current = currentValue;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current);
+            }, 50);
+        }
+
+        function animateValue(elementId, targetValue, formatter) {
+            const element = document.getElementById(elementId);
+            const currentText = element.textContent;
+            const currentValue = parseInt(currentText.replace(/[^0-9]/g, '')) * (currentText.includes('K') ? 1000 : 1) || 0;
+            const increment = (targetValue - currentValue) / 20;
+            let current = currentValue;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = formatter(current);
+            }, 50);
+        }
+
+        // Track donation functionality
+        function trackDonation() {
+            const code = document.getElementById('donationCode').value.trim();
+            const resultDiv = document.getElementById('donationResult');
+            const button = event.target;
+
+            if (!code) {
+                resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-exclamation-triangle"></i> إدخال غير صحيح</h4><p>الرجاء إدخال كود التبرع.</p></div>';
+                return;
+            }
+
+            // Show loading state
+            button.innerHTML = '<span class="loading"></span> جاري البحث...';
+            button.disabled = true;
+
+            // Simulate API call delay
+            setTimeout(() => {
+                // Handle both database field names (project_id) and legacy field names (projectId)
+                const donation = donations.find(d => d.code.toLowerCase() === code.toLowerCase());
+                
+                if (donation) {
+                    const projectId = donation.project_id || donation.projectId;
+                    const project = projects.find(p => p.id === projectId);
+                    resultDiv.innerHTML = `
+                        <div class="alert">
+                            <h4><i class="fas fa-check-circle"></i> تم العثور على التبرع!</h4>
+                            <p><strong>الكود:</strong> ${donation.code}</p>
+                            <p><strong>اسم المتبرع:</strong> ${donation.name}</p>
+                            <p><strong>المشروع:</strong> ${project ? project.title : 'Unknown Project'}</p>
+                            <p><strong>مقدار التبرع:</strong> ${donation.amount.toLocaleString()}</p>
+                            <p><strong>التاريخ:</strong> ${new Date(donation.date).toLocaleDateString()}</p>
+                            <p><strong>حالة التبرع:</strong> <span class="project-status status-${donation.status === 'completed' ? 'completed' : 'active'}">${donation.status.toUpperCase()}</span></p>
+                            ${project ? `<p><strong>تقدم المشروع:</strong> مكتمل بنسبة ${((project.raised / project.budget) * 100).toFixed(1)}% </p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="alert alert-error"><h4><i class="fas fa-times-circle"></i> غير موجود</h4><p>لم يتم العثور على التبرع، الرجاء التحقق من الكود مرة أخرى.</p></div>';
+                }
+
+                // Reset button
+                button.innerHTML = '<i class="fas fa-search"></i> تتبع التبرع';
+                button.disabled = false;
+            }, 1500);
+        }
+
+        // Toggle mobile menu (like homepage)
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                this.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                this.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const navMenu = document.getElementById('navMenu');
+                const menuToggle = document.getElementById('menuToggle');
+                
+                if (window.innerWidth <= 1024) {
+                    navMenu.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    
+                    // Update active nav item
+                    document.querySelectorAll('.nav-menu a[href^="#"]').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Initialize the application
+            init();
+        });
+
+        // Handle Enter key in donation code input
+        document.getElementById('donationCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                trackDonation();
+            }
+        });
+
+        // Handle online/offline events
+        window.addEventListener('online', async () => {
+            console.log('Back online, attempting to reconnect...');
+            await init();
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('Gone offline, using cached data');
+            isOnline = false;
+            showConnectionStatus(false);
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            
+            if (window.innerWidth > 1024) {
+                navMenu.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
